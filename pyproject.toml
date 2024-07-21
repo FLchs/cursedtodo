@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "cursedtodo"
+version = "0.1.0"
+description = "Cursed todo manager"
+authors = ["François Lachèse"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.scripts]
+cursedtodo-entrypoint = "cursedtodo.__main__:main"
+
+[project.script]
+cli = "cursedtodo.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
