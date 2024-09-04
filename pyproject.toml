@@ -1,19 +1,21 @@
 [tool.poetry]
 name = "cursedtodo"
 version = "0.1.0"
-description = "Cursed todo manager"
-authors = ["François Lachèse"]
-license = "MIT"
+description = "Todo manager TUI"
+authors = ["François Lachèse <francois.lachese@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+ics = "^0.7.2"
+attrs = "^24.2.0"
 
 [tool.poetry.scripts]
-cursedtodo-entrypoint = "cursedtodo.__main__:main"
+cursedtodo = "cursedtodo:main"
 
-[project.script]
-cli = "cursedtodo.__main__:main"
+[tool.pyright]
+venvPath = "/home/francois/.cache/pypoetry/virtualenvs/"
+venv = "cursedtodo--XwEG-YN-py3.12"
 
 [build-system]
 requires = ["poetry-core"]
