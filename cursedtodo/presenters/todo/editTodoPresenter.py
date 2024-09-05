@@ -14,7 +14,6 @@ class EditTodoPresenter:
         self.view.init(self)
         result = self.view.render()
         if self.todo is not None and result is not None:
-            # TODO: Save the modified todo
             self.todo.summary = result[0]
             self.todo.priority = int(result[1])
             self.todo.list = result[2]
