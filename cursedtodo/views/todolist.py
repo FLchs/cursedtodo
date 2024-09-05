@@ -135,7 +135,8 @@ class TodoListView:
                     self.presenter.stdscr, editTodoView, self.todo_list[self.selected]
                 )
                 editTodoPresenter.run()
-                self.render_list()
+                self.presenter.refreshTodoList()
+                self.render()
             elif k == ord("a"):
                 todo = Todo(0, "", "", "", 0, False)
                 editTodoView = EditTodoView()
