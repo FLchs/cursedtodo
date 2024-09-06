@@ -1,4 +1,4 @@
-from curses import newwin, textpad, window
+from curses import newwin, window
 
 
 class Confirm:

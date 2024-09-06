@@ -1,4 +1,3 @@
-from collections.abc import Callable
 from curses import curs_set, newwin, textpad
 
 from cursedtodo.views.todo.field.field import Field

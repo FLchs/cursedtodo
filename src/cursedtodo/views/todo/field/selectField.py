@@ -1,4 +1,4 @@
-from curses import A_BOLD, A_NORMAL, A_REVERSE, curs_set, newwin
+from curses import A_NORMAL, A_REVERSE, curs_set, newwin
 
 from cursedtodo.views.todo.field.field import Field
 

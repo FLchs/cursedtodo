@@ -1,7 +1,6 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from subprocess import PIPE, Popen
 from uuid import uuid1
 
 from ics import Calendar, Event
