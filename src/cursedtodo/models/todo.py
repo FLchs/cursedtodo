@@ -11,6 +11,8 @@ from ics import Todo as IcsTodo
 class Todo:
     id: int | str
     summary: str
+    description: str
+    categories: list[str] | None
     list: str
     path: str | None
     priority: int

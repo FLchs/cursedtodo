@@ -20,6 +20,8 @@ class TodoList:
             Todo(
                 event.uid,
                 event.name,
+                event.description,
+                next((x.value for x in event.extra if x.name == "CATEGORIES"), None),
                 os.path.basename(os.path.dirname(ics_file)),
                 ics_file,
                 event.priority or 0,
