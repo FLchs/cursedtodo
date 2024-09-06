@@ -4,10 +4,12 @@ from typing import List
 
 from cursedtodo.models.todo import Todo
 from cursedtodo.presenters.todo.editTodoPresenter import EditTodoPresenter
+from cursedtodo.presenters.todo.showTodoPresenter import ShowTodoPresenter
 from cursedtodo.utils.config import Config
 from cursedtodo.utils.formater import Formater
 from cursedtodo.views.todo.confirm import Confirm
 from cursedtodo.views.todo.edit import EditTodoView
+from cursedtodo.views.todo.showtodo import ShowTodoView
 
 
 class TodoListView:
@@ -61,7 +63,7 @@ class TodoListView:
         self.presenter.stdscr.addstr(
             self.rows - 1,
             1,
-            "q: quit | o: change order | c: show completed | e: edit todo | a: add todo | x: delete todo",
+            "q: quit | o: change order | c: show completed | e: edit todo | a: add todo | i: view todo | x: delete todo",
             curses.A_DIM,
         )
         self.presenter.stdscr.refresh()
@@ -129,6 +131,14 @@ class TodoListView:
                 self.filter_done()
             elif k == ord("o"):
                 self.toggle_priority_order()
+            elif k == ord("i"):
+                showTodoView = ShowTodoView()
+                showTodoPresenter = ShowTodoPresenter(
+                    self.presenter.stdscr, showTodoView, self.todo_list[self.selected]
+                )
+                showTodoPresenter.run()
+                self.presenter.refreshTodoList()
+                self.render()
             elif k == ord("e"):
                 editTodoView = EditTodoView()
                 editTodoPresenter = EditTodoPresenter(
