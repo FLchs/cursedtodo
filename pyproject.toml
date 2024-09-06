@@ -1,22 +1,24 @@
-[tool.poetry]
+[project]
 name = "cursedtodo"
 version = "0.1.0"
-description = "Todo manager TUI"
-authors = ["François Lachèse <francois.lachese@gmail.com>"]
+description = "Default template for PDM package"
+authors = [
+    {name = "François Lachèse", email = "francois.lachese@gmail.com"},
+]
+dependencies = [
+    "ics>=0.7.2",
+]
+requires-python = ">=3.12"
 readme = "README.md"
+license = {text = "MIT"}
 
-[tool.poetry.dependencies]
-python = "^3.12"
-ics = "^0.7.2"
-attrs = "^24.2.0"
-
-[tool.poetry.scripts]
-cursedtodo = "cursedtodo:main"
-
-[tool.pyright]
-venvPath = "/home/francois/.cache/pypoetry/virtualenvs/"
-venv = "cursedtodo--XwEG-YN-py3.12"
+[project.scripts]
+ctodo = "cursedtodo.cursedtodo:main"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true

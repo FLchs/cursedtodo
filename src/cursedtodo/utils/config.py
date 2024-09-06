@@ -20,6 +20,17 @@ class Config:
             return None
 
     @classmethod
+    def getstr(cls, default: str = "", *args) -> str:
+        if cls._config == None:
+            cls._config = configparser.ConfigParser()
+            cls._config.read("config.ini")
+        try:
+            value = cls._config.get(*args).strip()
+            return value
+        except:
+            return default
+
+    @classmethod
     def getint(cls, default: int = 0, *args) -> int:
         if cls._config == None:
             cls._config = configparser.ConfigParser()

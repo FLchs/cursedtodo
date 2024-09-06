@@ -1,18 +1,19 @@
 import glob
 import os
-from json import loads
-from subprocess import PIPE, Popen
-from types import SimpleNamespace
 
 from ics import Calendar
 
 from cursedtodo.models.todo import Todo
+from cursedtodo.utils.config import Config
 
 
 class TodoList:
     @staticmethod
     def get_list(show_completed=False, asc=False) -> list[Todo]:
-        calendar_dir = os.path.expanduser("~/.local/share/vdirsyncer/calendar/*")
+        # calendar_dir = os.path.expanduser("~/.local/share/vdirsyncer/calendar/*")
+        calendar_dir = os.path.expanduser(
+            str(Config.getstr("", "MAIN", "calendars") or "").strip()
+        )
         ics_files = glob.glob(os.path.join(calendar_dir, "*.ics"))
 
         events_todos = [
