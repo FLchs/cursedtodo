@@ -1,6 +1,8 @@
 from curses import curs_set, window, wrapper
 import curses
+import sys
 from cursedtodo.utils.router import Router
+
 
 def app(stdscreen: window) -> None:
     curs_set(0)
@@ -8,8 +10,13 @@ def app(stdscreen: window) -> None:
     router = Router(stdscreen)
     router.route_main()
 
+
 def main() -> None:
-    wrapper(app)
-    
+    try:
+        wrapper(app)
+    except KeyboardInterrupt:
+        sys.exit(0)
+
+
 if __name__ == "__main__":
     main()
