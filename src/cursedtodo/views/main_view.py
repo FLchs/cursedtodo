@@ -24,6 +24,7 @@ class MainView(BaseView):
         self.window.erase()
         self.window.box()
         self.window.addstr(0, 5, "Todos")
+        self.window.addstr(self.height -1, 5, " q : quit | c: show completed | o : change order")
         self.window.refresh()
         self.render_content()
 
@@ -40,6 +41,7 @@ class MainView(BaseView):
         for i, todo in enumerate(self.controller.data):
             self.render_line(self.pad, i, todo)
         self.pad.refresh(self.index, 0, 1, 1, self.height - 2, self.length - 2)
+
 
     def main_loop(self) -> None:
         while True:
