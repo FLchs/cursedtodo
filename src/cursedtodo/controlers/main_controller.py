@@ -5,16 +5,28 @@ from cursedtodo.views.main_view import MainView
 
 class MainController(Controller):
     def run(self) -> None:
-        view = MainView(self)
+        self.show_completed = False
+        self.asc = False
+        self.view = MainView(self)
         self.window.clear()
         self.get_data()
-        view.render()
-        view.main_loop()
+        self.view.render()
+        self.view.main_loop()
 
     def get_data(self) -> None:
-        self.data = TodoRepository.get_list()
+        self.data = TodoRepository.get_list(self.show_completed)
 
     def handle_key(self, key: int) -> bool:
         if key == ord("q"):
             return True
+        if key == ord("c"):
+            self.view.selected = 0
+            self.view.index = 0
+            self.show_completed = not self.show_completed
+            self.data = TodoRepository.get_list(self.show_completed, self.asc)
+        if key == ord("o"):
+            self.view.selected = 0
+            self.view.index = 0
+            self.asc = not self.asc
+            self.data = TodoRepository.get_list(self.show_completed, self.asc)
         return False
