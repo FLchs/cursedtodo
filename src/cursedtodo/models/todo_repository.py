@@ -25,7 +25,8 @@ class TodoRepository:
                 path.basename(path.dirname(ics_file)),
                 ics_file,
                 event.priority or 0,
-                event.completed is not None,
+                event.completed,
+                event.due
             )
             for ics_file in ics_files
             for event in Calendar(open(ics_file).read()).todos
