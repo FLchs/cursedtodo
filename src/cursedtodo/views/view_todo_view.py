@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-from curses import A_BOLD, COLOR_RED, color_pair, init_pair
+from curses import (
+    A_BOLD,
+    COLOR_RED,
+    color_pair,
+    init_pair,
+)
 from datetime import datetime
 from typing import TYPE_CHECKING
 
@@ -22,6 +27,7 @@ class ViewTodoView(BaseView):
         todo = self.controller.todo
         self.window.erase()
         self.window.box()
+        self.window.addstr(self.height - 1, 5, " q: go back ")
         self.window.addstr(0, 5, todo.summary)
 
         line = 1
@@ -63,9 +69,6 @@ class ViewTodoView(BaseView):
                 self.window.addstr(line + i, 1, description_line)
             line = line + i
 
-        self.window.addstr(
-            self.height - 1, 5, " q: go back "
-        )
         self.window.refresh()
 
     def main_loop(self) -> None:
