@@ -18,30 +18,39 @@ class MainView(BaseView):
         self.controller = controller
         self.index = 0
         self.selected = 0
-        self.height, self.length = self.window.getmaxyx()
 
     def render(self) -> None:
+        self.height, self.length = self.window.getmaxyx()
         self.window.erase()
         self.window.box()
         self.window.addstr(0, 5, "Todos")
-        self.window.addstr(self.height -1, 5, " q : quit | c: show completed | o : change order")
+        self.window.addstr(
+            self.height - 1, 5, " q : quit | c: show completed | o : change order "
+        )
         self.window.refresh()
         self.render_content()
 
     def render_line(self, pad: window, y: int, todo: Todo) -> None:
-        pad.addstr(y, 0, todo.list)
-        pad.addstr(y, 10, todo.summary)
+        columns = [10, min(self.length - 16, 70), 15]
+        summary = (
+            (todo.summary[: columns[1] - 12] + "…")
+            if len(todo.summary) > columns[1] - 12
+            else todo.summary
+        )
+        pad.addnstr(y, 0, todo.list.ljust(columns[0]), columns[0])
+        pad.addnstr(summary.ljust(columns[1]), columns[1])
         text, color = Formater.formatPriority(todo.priority)
-        pad.addstr(y, 70, text,  color)
+        pad.addstr(text, color)
         if y == self.selected:
             pad.chgat(y, 0, self.length, curses.A_STANDOUT)
 
     def render_content(self) -> None:
-        self.pad = newpad(5000, self.length)
+        self.pad = newpad(len(self.controller.data), self.length)
+        if self.height - self.selected > self.index:
+            self.index = self.selected - self.height + 3
         for i, todo in enumerate(self.controller.data):
             self.render_line(self.pad, i, todo)
         self.pad.refresh(self.index, 0, 1, 1, self.height - 2, self.length - 2)
-
 
     def main_loop(self) -> None:
         while True:
