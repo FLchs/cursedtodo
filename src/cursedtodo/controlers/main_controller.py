@@ -1,3 +1,4 @@
+from curses import KEY_RESIZE
 from cursedtodo.controlers.base_controller import Controller
 from cursedtodo.models.todo_repository import TodoRepository
 from cursedtodo.views.main_view import MainView
@@ -17,6 +18,8 @@ class MainController(Controller):
         self.data = TodoRepository.get_list(self.show_completed)
 
     def handle_key(self, key: int) -> bool:
+        if key == KEY_RESIZE:
+            self.view.render()
         if key == ord("q"):
             return True
         if key == ord("c"):
