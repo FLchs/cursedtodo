@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from cursedtodo.models.todo import Todo
 from cursedtodo.utils.formater import Formater
+from cursedtodo.utils.window_utils import add_borders
 from cursedtodo.views.base_view import BaseView
 
 if TYPE_CHECKING:
@@ -22,7 +23,7 @@ class MainView(BaseView):
     def render(self) -> None:
         self.height, self.length = self.window.getmaxyx()
         self.window.erase()
-        self.window.box()
+        add_borders(self.window)
         self.window.addstr(0, 5, "Todos")
         self.window.addstr(
             self.height - 1, 5, " q : quit | c: show completed | o : change order "
