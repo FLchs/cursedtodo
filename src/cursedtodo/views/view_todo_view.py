@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 
 
 from cursedtodo.utils.formater import Formater
+from cursedtodo.utils.window_utils import add_borders
 from cursedtodo.views.base_view import BaseView
 
 if TYPE_CHECKING:
@@ -26,7 +27,8 @@ class ViewTodoView(BaseView):
         self.height, self.length = self.window.getmaxyx()
         todo = self.controller.todo
         self.window.erase()
-        self.window.box()
+        self.window.border()
+        add_borders(self.window)
         self.window.addstr(self.height - 1, 5, " q: go back ")
         self.window.addstr(0, 5, todo.summary)
 
