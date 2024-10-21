@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from curses import A_BOLD, A_NORMAL, A_STANDOUT, KEY_RESIZE, curs_set, textpad, window
 from typing import TYPE_CHECKING, Callable
 
@@ -15,15 +16,17 @@ class CreateTodoView(BaseView):
     def __init__(self, controller: CreateTodoController) -> None:
         super().__init__(controller)
         self.controller = controller
-        self.fields = []
+        self.fields: list[Input] = []
         self.values = [""]
         self.height, self.length = self.window.getmaxyx()
         name_field = TextField(2, self.window, "Name", self.validator)
         categories_field = TextField(3, self.window, "Categories", self.validator)
         save_button = Button(self.window, 6, 1, "Save", self.save, self.validator)
+        cancel_button = Button(self.window, 6, 6, "Cancel", self.cancel, self.validator)
         self.fields.append(name_field)
         self.fields.append(categories_field)
         self.fields.append(save_button)
+        self.fields.append(cancel_button)
 
     def render(self) -> None:
         self.height, self.length = self.window.getmaxyx()
@@ -39,13 +42,13 @@ class CreateTodoView(BaseView):
             field.render()
         self.window.refresh()
 
-    def save(self):
+    def save(self) -> bool:
         return True
 
-    def cancel(self):
+    def cancel(self) -> bool:
         return True
 
-    def validator(self, ch: int):
+    def validator(self, ch: int) -> int:
         if ch == KEY_RESIZE:
             self.render()
             return ch
@@ -64,8 +67,21 @@ class CreateTodoView(BaseView):
                 break
             index += 1
 
+class Input(ABC):
 
-class TextField:
+    @abstractmethod
+    def render(self) -> None:
+        pass
+
+    @abstractmethod
+    def save(self) -> None:
+        pass
+
+    @abstractmethod
+    def focus(self) -> bool | None:
+        pass
+
+class TextField(Input):
     def __init__(
         self, y: int, window: window, name: str, validator: Callable[[int], int]
     ):
@@ -78,24 +94,24 @@ class TextField:
         self.validator = validator
         self.render()
 
-    def render(self):
+    def render(self) -> None:
         self.window.addstr(self.y, 1, f"{self.name}: ", A_BOLD)
         self.textwindow.move(0, 0)
         self.textwindow.addstr(self.value)
         self.textwindow.move(0, max(len(self.value) - 1, 0))
         self.textwindow.refresh()
 
-    def save(self):
+    def save(self) -> None:
         self.value = self.textbox.gather()
 
-    def focus(self):
+    def focus(self)-> None:
         curs_set(1)
         self.textwindow.move(0, max(len(self.value) - 1, 0))
         self.textbox.edit(self.validator)
         self.value = self.textbox.gather()
 
 
-class Button:
+class Button(Input):
     def __init__(
         self,
         window: window,
@@ -112,13 +128,13 @@ class Button:
         self.action = action
         self.validator = validator
 
-    def save(self):
+    def save(self) -> None:
         pass
 
-    def render(self):
+    def render(self) -> None:
         self.window.addstr(self.y, self.x, self.name)
 
-    def focus(self):
+    def focus(self) -> bool | None:
         curs_set(0)
         while True:
             self.window.chgat(self.y, self.x, len(self.name), A_STANDOUT)
@@ -130,4 +146,4 @@ class Button:
                 self.window.chgat(self.y, self.x, A_NORMAL)
                 self.window.refresh()
                 break
-        return
+        return None
