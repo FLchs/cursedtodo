@@ -16,6 +16,7 @@ class Todo:
     priority: int
     completed: Arrow
     due: Arrow | None
+    location: str | None
 
 
     def __lt__(self, other: Todo) -> bool:
