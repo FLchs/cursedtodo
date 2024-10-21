@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 
 
 from cursedtodo.utils.formater import Formater
-from cursedtodo.utils.window_utils import add_borders
+from cursedtodo.utils.window_utils import add_borders, draw_line
 from cursedtodo.views.base_view import BaseView
 
 if TYPE_CHECKING:
@@ -63,7 +63,15 @@ class ViewTodoView(BaseView):
             self.window.addstr("".join(todo.categories or []))
             line += 1
 
+        if todo.location and len(todo.location) > 0:
+            self.window.addstr(line, 1, "Location: ", A_BOLD)
+            self.window.addstr(todo.location)
+            line += 1
+
+
         if todo.description:
+            draw_line(self.window, line, self.length)
+            line += 1
             self.window.addstr(line, 1, "Description: ", A_BOLD)
             line += 1
             i = 0

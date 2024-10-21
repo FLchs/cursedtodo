@@ -1,4 +1,5 @@
 from curses import window
+import curses
 
 from cursedtodo.utils.config import Config
 
@@ -15,3 +16,8 @@ def add_borders(window: window) -> None:
             window.addch(max_y - 1, max_x - 1, "╯")
     except Exception:
         pass
+
+def draw_line(window: window, y:int, max_x: int) -> None:
+    window.addch(y, 0, "├")
+    window.hline(curses.ACS_HLINE, max_x-2)
+    window.addch(y, max_x-1,"┤")
