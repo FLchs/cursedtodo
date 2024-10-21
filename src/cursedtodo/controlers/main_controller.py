@@ -35,4 +35,7 @@ class MainController(Controller):
             self.view.index = 0
             self.asc = not self.asc
             self.data = TodoRepository.get_list(self.show_completed, self.asc)
+        if key == ord("n"):
+            self.router.route_create_todo()
+            self.view.render()
         return False
