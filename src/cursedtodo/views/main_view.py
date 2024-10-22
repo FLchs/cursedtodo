@@ -26,7 +26,7 @@ class MainView(BaseView):
         add_borders(self.window)
         self.window.addstr(0, 5, "Todos")
         self.window.addstr(
-            self.height - 1, 5, " q : quit | c: show completed | o : change order "
+            self.height - 1, 5, " q : quit | c: show completed | o : change order | space : mark as done"
         )
         self.window.refresh()
         self.render_content()
@@ -42,6 +42,8 @@ class MainView(BaseView):
         pad.addnstr(summary.ljust(columns[1]), columns[1])
         text, color = Formater.formatPriority(todo.priority)
         pad.addstr(text, color)
+        if todo.completed:
+            pad.chgat(y, 0, self.length, curses.A_DIM)
         if y == self.selected:
             pad.chgat(y, 0, self.length, curses.A_STANDOUT)
 
