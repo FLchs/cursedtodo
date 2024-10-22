@@ -24,20 +24,36 @@ class Todo:
     def __lt__(self, other: Todo) -> bool:
         return self.priority < other.priority
 
+    def mark_as_done(self) -> None:
+        if self.path is None:
+            raise Exception("Todo path is none")
+        calendar = Calendar(open(self.path).read())
+        todo_item = next(
+            (todo for todo in calendar.todos if todo.uid == self.id),
+            None,
+        )
+        if todo_item is None:
+            raise Exception("Cannot find todo")
+
+        self.completed = Arrow.now() if self.completed is None else None
+        # TODO: check ics new version
+        # There is a type issue with ics, will be resolved in next version.
+        todo_item.completed = self.completed  # type: ignore
+        calendar.todos.add(todo_item)
+
+        with open(self.path, "w") as f:
+            f.writelines(calendar.serialize_iter())
+
     def save(self) -> None:
-        # Initialize new calendar and todo item
         calendar = Calendar()
         todo_item = IcsTodo()
-        # categories = categories_str.split(",")
 
-        # Determine the new path
         calendar_dir = os.path.expanduser("~/.local/share/vdirsyncer/calendar")
         new_dir = os.path.join(calendar_dir, self.list)
         os.makedirs(new_dir, exist_ok=True)
 
         new_path = os.path.join(new_dir, f"{uuid1()}.ics")
 
-        # Set the todo fields
         todo_item.name = self.summary
         todo_item.description = self.description
         todo_item.location = self.location or ""
@@ -47,10 +63,7 @@ class Todo:
         )
         calendar.todos.add(todo_item)
 
-        # Update the path in the object
         self.path = new_path
 
-
-        # Write the calendar to the file
         with open(self.path, "w") as f:
             f.writelines(calendar.serialize_iter())
