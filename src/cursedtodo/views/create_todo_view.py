@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
-from curses import A_BOLD, A_NORMAL, A_STANDOUT, KEY_RESIZE, curs_set, textpad, window
-from typing import TYPE_CHECKING, Callable
+from curses import KEY_RESIZE
+from typing import TYPE_CHECKING, Dict
 
 
 from cursedtodo.utils.window_utils import add_borders
 from cursedtodo.views.base_view import BaseView
+from cursedtodo.views.form.Button import Button
+from cursedtodo.views.form.Field import Field
 
 if TYPE_CHECKING:
     from cursedtodo.controlers.create_todo_controller import CreateTodoController
@@ -16,17 +17,20 @@ class CreateTodoView(BaseView):
     def __init__(self, controller: CreateTodoController) -> None:
         super().__init__(controller)
         self.controller = controller
-        self.fields: list[Input] = []
-        self.values = [""]
         self.height, self.length = self.window.getmaxyx()
-        name_field = TextField(2, self.window, "Name", self.validator)
-        categories_field = TextField(3, self.window, "Categories", self.validator)
-        save_button = Button(self.window, 6, 1, "Save", self.save, self.validator)
-        cancel_button = Button(self.window, 6, 6, "Cancel", self.cancel, self.validator)
-        self.fields.append(name_field)
-        self.fields.append(categories_field)
-        self.fields.append(save_button)
-        self.fields.append(cancel_button)
+        self.fields: list[Field] = [
+            Field(2, self.window, "List", "list", self.validator),
+            Field(3, self.window, "Summary", "summary", self.validator),
+            Field(4, self.window, "Priority", "priority", self.validator),
+            Field(5, self.window, "Due", "due", self.validator),
+            Field(6, self.window, "Categories", "categories", self.validator),
+            Field(7, self.window, "Location", "location", self.validator),
+            Field(9, self.window, "Description", "description", self.validator),
+        ]
+        self.save_button = Button(self.window, 10, 1, "Save", self.save, self.validator)
+        self.cancel_button = Button(
+            self.window, 10, 6, "Cancel", self.cancel, self.validator
+        )
 
     def render(self) -> None:
         self.height, self.length = self.window.getmaxyx()
@@ -40,9 +44,15 @@ class CreateTodoView(BaseView):
         # self.window.addstr(1, 1, "Calendar: ")
         for field in self.fields:
             field.render()
+        self.save_button.render()
+        self.cancel_button.render()
         self.window.refresh()
 
     def save(self) -> bool:
+        values: Dict[str, str] = {}
+        for field in self.fields:
+            values.update({field.id: field.value})
+        self.controller.create_todo(values)
         return True
 
     def cancel(self) -> bool:
@@ -61,89 +71,16 @@ class CreateTodoView(BaseView):
         index = 0
         self.window.refresh()
         while True:
-            if index == len(self.fields):
+            if index < len(self.fields):
+                self.fields[index].focus()
+                index += 1
+            elif index == len(self.fields):
+                if self.save_button.focus():
+                    break
+                index += 1
+            elif index == len(self.fields) + 1:
+                if self.cancel_button.focus():
+                    break
+                index += 1
+            else:
                 index = 0
-            if self.fields[index].focus():
-                break
-            index += 1
-
-class Input(ABC):
-
-    @abstractmethod
-    def render(self) -> None:
-        pass
-
-    @abstractmethod
-    def save(self) -> None:
-        pass
-
-    @abstractmethod
-    def focus(self) -> bool | None:
-        pass
-
-class TextField(Input):
-    def __init__(
-        self, y: int, window: window, name: str, validator: Callable[[int], int]
-    ):
-        self.window = window
-        self.name = name
-        self.y = y
-        self.textwindow = window.derwin(1, 50, y, 15)
-        self.textbox = textpad.Textbox(self.textwindow, insert_mode=True)
-        self.value = ""
-        self.validator = validator
-        self.render()
-
-    def render(self) -> None:
-        self.window.addstr(self.y, 1, f"{self.name}: ", A_BOLD)
-        self.textwindow.move(0, 0)
-        self.textwindow.addstr(self.value)
-        self.textwindow.move(0, max(len(self.value) - 1, 0))
-        self.textwindow.refresh()
-
-    def save(self) -> None:
-        self.value = self.textbox.gather()
-
-    def focus(self)-> None:
-        curs_set(1)
-        self.textwindow.move(0, max(len(self.value) - 1, 0))
-        self.textbox.edit(self.validator)
-        self.value = self.textbox.gather()
-
-
-class Button(Input):
-    def __init__(
-        self,
-        window: window,
-        y: int,
-        x: int,
-        name: str,
-        action: Callable[[], bool],
-        validator: Callable[[int], int],
-    ) -> None:
-        self.window = window
-        self.x = x
-        self.y = y
-        self.name = name
-        self.action = action
-        self.validator = validator
-
-    def save(self) -> None:
-        pass
-
-    def render(self) -> None:
-        self.window.addstr(self.y, self.x, self.name)
-
-    def focus(self) -> bool | None:
-        curs_set(0)
-        while True:
-            self.window.chgat(self.y, self.x, len(self.name), A_STANDOUT)
-            k = self.window.getch()
-            self.validator(k)
-            if k == 10:
-                return self.action()
-            if k == 9:
-                self.window.chgat(self.y, self.x, A_NORMAL)
-                self.window.refresh()
-                break
-        return None
