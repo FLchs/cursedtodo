@@ -1,6 +1,7 @@
 from curses import KEY_RESIZE
 from cursedtodo.controlers.base_controller import Controller
 from cursedtodo.models.todo_repository import TodoRepository
+from cursedtodo.views.dialog import Dialog
 from cursedtodo.views.main_view import MainView
 
 
@@ -46,4 +47,14 @@ class MainController(Controller):
             if not self.show_completed:
                 self.data.append(todo)
             self.view.render()
+        if key == ord("x"):
+            result = Dialog.confirm(
+                self.window,
+                "This action will permanently delete the item. Are you sure you want to proceed?",
+                self.view.render,
+            )
+            if result:
+                self.data[self.view.selected].delete()
+                self.data = TodoRepository.get_list(self.show_completed, self.asc)
+                self.view.render()
         return False
