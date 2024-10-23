@@ -31,7 +31,7 @@ class Dialog:
             if k == KEY_RESIZE:
                 on_resize()
                 return Dialog.confirm(window, text, on_resize)
-            if k == 9 or k == ord("h") or k == ord("l"):
+            elif k == 9 or k == ord("h") or k == ord("l"):
                 dialog.chgat(4, 1, dialog_width - 2, A_NORMAL)
                 if index == 0:
                     dialog.chgat(4, dialog_width - 2 - 6 - 10, 6, A_STANDOUT)
@@ -40,3 +40,5 @@ class Dialog:
                 index = index ^ 1
             elif k == 10:
                 return index == 1
+            elif k == ord("q"):
+                return False
