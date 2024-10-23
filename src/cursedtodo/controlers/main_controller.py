@@ -56,5 +56,5 @@ class MainController(Controller):
             if result:
                 self.data[self.view.selected].delete()
                 self.data = TodoRepository.get_list(self.show_completed, self.asc)
-                self.view.render()
+            self.view.render()
         return False
