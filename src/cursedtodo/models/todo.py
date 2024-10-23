@@ -67,3 +67,8 @@ class Todo:
 
         with open(self.path, "w") as f:
             f.writelines(calendar.serialize_iter())
+
+    def delete(self) -> None:
+        if self.path is None:
+            raise Exception(f"Cannot delete {self.summary} because paht is null")
+        os.remove(self.path)
