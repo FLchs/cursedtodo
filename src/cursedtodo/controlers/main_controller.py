@@ -1,4 +1,5 @@
 from curses import KEY_RESIZE
+
 from cursedtodo.controlers.base_controller import Controller
 from cursedtodo.models.todo_repository import TodoRepository
 from cursedtodo.views.dialog import Dialog
