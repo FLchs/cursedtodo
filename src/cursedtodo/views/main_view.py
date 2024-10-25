@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from curses import newpad, window
 import curses
+from curses import newpad, window
 from typing import TYPE_CHECKING
 
 from cursedtodo.models.todo import Todo
@@ -26,7 +26,9 @@ class MainView(BaseView):
         add_borders(self.window)
         self.window.addstr(0, 5, "Todos")
         self.window.addstr(
-            self.height - 1, 5, " q : quit | c: show completed | o : change order | space : mark as done"
+            self.height - 1,
+            5,
+            " q : quit | c: show completed | o : change order | space : mark as done | d: delete",
         )
         self.window.refresh()
         self.render_content()
