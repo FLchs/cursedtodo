@@ -58,7 +58,7 @@ class CreateTodoView(BaseView):
     def cancel(self) -> bool:
         return True
 
-    def validator(self, ch: int | str) -> int | str | bytes | bytearray:
+    def validator(self, ch: int | str) -> int | str:
         if ch == KEY_RESIZE:
             self.render()
             return ch

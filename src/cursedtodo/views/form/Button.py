@@ -1,6 +1,7 @@
 from curses import A_NORMAL, A_STANDOUT, curs_set, window
 from typing import Callable
 
+
 class Button:
     def __init__(
         self,
@@ -9,7 +10,7 @@ class Button:
         x: int,
         name: str,
         action: Callable[[], bool],
-        validator: Callable[[int], int],
+        validator: Callable[[int | str], int | str],
     ) -> None:
         self.window = window
         self.x = x
@@ -34,4 +35,3 @@ class Button:
                 self.window.refresh()
                 break
         return None
-
