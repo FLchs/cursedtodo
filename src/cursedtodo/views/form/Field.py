@@ -1,8 +1,10 @@
 from collections.abc import Callable
-from curses import A_BOLD, curs_set, textpad, window
+from curses import A_BOLD, curs_set, window
+
+from cursedtodo.utils.textpad import Textbox
 
 
-class Field():
+class Field:
     def __init__(
         self,
         y: int,
@@ -16,7 +18,7 @@ class Field():
         self.id = id
         self.y = y
         self.textwindow = window.derwin(1, 50, y, 15)
-        self.textbox = textpad.Textbox(self.textwindow, insert_mode=True)
+        self.textbox = Textbox(self.textwindow, insert_mode=True) # type: ignore
         self.value = ""
         self.validator = validator
         self.render()
@@ -29,10 +31,10 @@ class Field():
         self.textwindow.refresh()
 
     def save(self) -> None:
-        self.value = self.textbox.gather()
+        self.value = self.textbox.gather() # type: ignore
 
     def focus(self) -> None:
         curs_set(1)
         self.textwindow.move(0, max(len(self.value) - 1, 0))
-        self.textbox.edit(self.validator)
-        self.value = self.textbox.gather()
+        self.textbox.edit(self.validator) # type: ignore
+        self.value = self.textbox.gather() # type: ignore
