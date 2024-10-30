@@ -58,12 +58,12 @@ class CreateTodoView(BaseView):
     def cancel(self) -> bool:
         return True
 
-    def validator(self, ch: int) -> int:
+    def validator(self, ch: int | str) -> int | str | bytes | bytearray:
         if ch == KEY_RESIZE:
             self.render()
             return ch
-        elif ch == 9:
-            return 7
+        elif ch == "\t":
+            return "\n"
         else:
             return ch
 
