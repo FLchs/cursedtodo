@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Dict
 from cursedtodo.utils.window_utils import add_borders
 from cursedtodo.views.base_view import BaseView
 from cursedtodo.views.form.Button import Button
-from cursedtodo.views.form.Field import Field
+from cursedtodo.views.form.text_field import TextField
 
 if TYPE_CHECKING:
     from cursedtodo.controlers.create_todo_controller import CreateTodoController
@@ -18,14 +18,14 @@ class CreateTodoView(BaseView):
         super().__init__(controller)
         self.controller = controller
         self.height, self.length = self.window.getmaxyx()
-        self.fields: list[Field] = [
-            Field(2, self.window, "List", "list", self.validator),
-            Field(3, self.window, "Summary", "summary", self.validator),
-            Field(4, self.window, "Priority", "priority", self.validator),
-            Field(5, self.window, "Due", "due", self.validator),
-            Field(6, self.window, "Categories", "categories", self.validator),
-            Field(7, self.window, "Location", "location", self.validator),
-            Field(9, self.window, "Description", "description", self.validator),
+        self.fields: list[TextField] = [
+            TextField(2, self.window, "List", "list", self.validator),
+            TextField(3, self.window, "Summary", "summary", self.validator),
+            TextField(4, self.window, "Priority", "priority", self.validator),
+            TextField(5, self.window, "Due", "due", self.validator),
+            TextField(6, self.window, "Categories", "categories", self.validator),
+            TextField(7, self.window, "Location", "location", self.validator),
+            TextField(9, self.window, "Description", "description", self.validator),
         ]
         self.save_button = Button(self.window, 10, 1, "Save", self.save, self.validator)
         self.cancel_button = Button(
@@ -34,8 +34,8 @@ class CreateTodoView(BaseView):
 
     def render(self) -> None:
         self.height, self.length = self.window.getmaxyx()
-        for field in self.fields:
-            field.save()
+        # for field in self.fields:
+        #     field.save()
         self.window.erase()
         self.window.border()
         add_borders(self.window)
@@ -50,8 +50,8 @@ class CreateTodoView(BaseView):
 
     def save(self) -> bool:
         values: Dict[str, str] = {}
-        for field in self.fields:
-            values.update({field.id: field.value})
+        # for field in self.fields:
+        #     values.update({field.id: field.value})
         self.controller.create_todo(values)
         return True
 
