@@ -32,6 +32,7 @@ class MainView(BaseView):
         )
         self.window.refresh()
         self.pad = newpad(max(len(self.controller.data), self.length), self.length)
+        Formater.init_priority_colors()
         self.render_content()
 
     def render_line(self, pad: window, y: int, todo: Todo) -> None:
@@ -43,8 +44,9 @@ class MainView(BaseView):
         )
         pad.addnstr(y, 0, todo.list.ljust(columns[0]), columns[0])
         pad.addnstr(summary.ljust(columns[1]), columns[1])
-        text, color = Formater.formatPriority(todo.priority)
-        pad.addstr(text, color)
+        if todo.priority > 0:
+            text, color = Formater.formatPriority(todo.priority)
+            pad.addstr(text, color)
         if todo.completed:
             pad.chgat(y, 0, self.length, curses.A_DIM)
         if y == self.selected:
