@@ -50,7 +50,7 @@ class MainView(BaseView):
             pad.chgat(y, 0, self.length, curses.A_STANDOUT)
 
     def render_content(self) -> None:
-        self.pad = newpad(len(self.controller.data), self.length)
+        self.pad = newpad(max(len(self.controller.data), self.length), self.length)
         if self.height - self.selected > self.index:
             self.index = self.selected - self.height + 3
         for i, todo in enumerate(self.controller.data):
