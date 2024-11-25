@@ -38,7 +38,7 @@ class EditTodoView(BaseView):
             ),
             "location": TextInputField(7, self.window, "Location", "location", self.validator),
             "description": TextArea(
-                8, self.window, "Description", "description", self.validator, ""
+                9, self.window, "Description", "description", self.validator, ""
             ),
         }
         if todo:
