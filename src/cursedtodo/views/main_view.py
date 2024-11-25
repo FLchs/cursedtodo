@@ -36,7 +36,7 @@ class MainView(BaseView):
         self.render_content()
 
     def render_line(self, pad: window, y: int, todo: Todo) -> None:
-        columns = [10, min(self.length - 16, 70), 15]
+        columns = [10, min(self.length - 16, 70), 20, 25]
         summary = (
             (todo.summary[: columns[1] - 12] + "…")
             if len(todo.summary) > columns[1] - 12
@@ -44,16 +44,16 @@ class MainView(BaseView):
         )
         pad.addnstr(y, 0, todo.list.ljust(columns[0]), columns[0])
         pad.addnstr(summary.ljust(columns[1]), columns[1])
-        if todo.priority > 0:
-            text, color = Formater.formatPriority(todo.priority)
-            pad.addstr(text, color)
+        text, color = Formater.formatPriority(todo.priority) if todo.priority >0 else ("", 0)
+        pad.addnstr(text.ljust(columns[2]), columns[2], color)
+        pad.addnstr(str(todo.due or "").ljust(columns[3]), columns[3])
         if todo.completed:
             pad.chgat(y, 0, self.length, curses.A_DIM)
         if y == self.selected:
             pad.chgat(y, 0, self.length, curses.A_STANDOUT)
 
     def render_content(self) -> None:
-        self.pad.clear()
+        self.pad.erase()
         self.pad.resize(max(len(self.controller.data), self.length), self.length)
         if self.height - self.selected > self.index:
             self.index = self.selected - self.height + 3
