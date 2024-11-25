@@ -6,6 +6,8 @@ from cursedtodo.utils.config import Config
 
 format =  str(Config.get("UI", "date_format"))
 
+# TODO: make it a class and maybe use dateutil for more robust parsing
+
 def get_locale_tz() -> ZoneInfo:
     local_tz_path = os.readlink('/etc/localtime')
     local_tz_name = local_tz_path.split('/usr/share/zoneinfo/')[-1]
