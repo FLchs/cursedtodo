@@ -1,7 +1,9 @@
 from glob import glob
 from os import path
+import os
+from uuid import uuid1
 
-from ics import Calendar
+from ics import Calendar, Todo as IcsTodo
 from cursedtodo.models.todo import Todo
 from cursedtodo.utils.config import Config
 
@@ -11,7 +13,6 @@ class TodoRepository:
     def get_list(show_completed: bool = False, asc: bool = False) -> list[Todo]:
         # calendar_dir = os.path.expanduser("~/.local/share/vdirsyncer/calendar/*")
         calendar_dir = path.expanduser(
-            # str(config.config.getstr("", "MAIN", "calendars") or "").strip()
             str(Config.get("MAIN", "calendars"))
         )
         ics_files = glob(path.join(calendar_dir, "*.ics"))
@@ -21,12 +22,13 @@ class TodoRepository:
                 event.uid,
                 event.name or "",
                 event.description or "",
-                [getattr(x, 'value', '') for x in event.extra if x.name == "CATEGORIES"] or [],
+                [getattr(x, "value", "") for x in event.extra if x.name == "CATEGORIES"]
+                or [],
                 path.basename(path.dirname(ics_file)),
                 ics_file,
                 event.priority or 0,
-                event.completed,
-                event.due,
+                event.completed.datetime if event.completed is not None else None,
+                event.due.datetime if event.due is not None else None,
                 event.location,
             )
             for ics_file in ics_files
@@ -35,3 +37,42 @@ class TodoRepository:
         ]
 
         return sorted(events_todos, reverse=not asc)
+
+    @staticmethod
+    def get_lists_names() -> list[str]:
+        calendar_dir = path.expanduser(
+            str(Config.get("MAIN", "calendars"))
+        )
+        if calendar_dir[-1] == "*":
+            calendar_dir = calendar_dir[: len(calendar_dir) - 1]
+        return [f.name for f in os.scandir(calendar_dir) if f.is_dir()]
+
+    @staticmethod
+    def save(todo: Todo) -> None:
+        if todo.path is None:
+            calendar = Calendar()
+            todo_item = IcsTodo()
+            calendar_dir = path.expanduser(
+                str(Config.get("MAIN", "calendars"))
+            )
+            new_dir = os.path.join(calendar_dir, todo.list)
+            os.makedirs(new_dir, exist_ok=True)
+            todo.path = os.path.join(new_dir, f"{uuid1()}.ics")
+        else:
+            with open(todo.path, "r") as f:
+                calendar = Calendar(f.read())
+            todo_item = calendar.todos.pop()
+            # raise Exception(self)
+            if todo_item is None:
+                raise Exception("Todo cannot be opened")
+
+        todo._add_attributes(todo_item)
+        calendar.todos.add(todo_item)
+        with open(todo.path, "w") as f:
+            f.writelines(calendar.serialize_iter())
+
+    @staticmethod
+    def delete(todo: Todo) -> None:
+        if todo.path is None:
+            raise Exception(f"Cannot delete {todo.summary} because path is null")
+        os.remove(todo.path)
