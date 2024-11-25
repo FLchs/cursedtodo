@@ -1,6 +1,6 @@
 from curses import window
 
-from cursedtodo.controlers.create_todo_controller import CreateTodoController
+from cursedtodo.controlers.edit_todo_controller import EditTodoController
 from cursedtodo.controlers.main_controller import MainController
 from cursedtodo.controlers.view_todo_controller import ViewTodoController
 from cursedtodo.models.todo import Todo
@@ -18,4 +18,7 @@ class Router:
         ViewTodoController(self).run(todo)
 
     def route_create_todo(self) -> None:
-        CreateTodoController(self).run()
+        EditTodoController(self).run()
+
+    def route_edit_todo(self, todo: Todo) -> None:
+        EditTodoController(self).run(todo)
