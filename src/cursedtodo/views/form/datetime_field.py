@@ -28,17 +28,23 @@ class DatetimeField(BaseField):
         return ch
 
     def render(self) -> None:
-        # TODO: make it nicer
+        self.textwindow.erase()
         self.window.addstr(self.y, 1, f"{self.id.capitalize()}: ", A_BOLD)
         self.textwindow.move(0, 0)
         if self.value is not None:
             value = datetime_format(self.value) 
             self.editor.set_value(value)
         self.editor.render()
+        self.textwindow.refresh()
 
     def focus(self) -> None:
         self.editor.main()
+        value = self.editor.gather()
+        if value is None or len(value) == 0:
+            return
         try:
             self.value = parse_to_datetime(self.editor.gather())
-        except ValueError:
-            pass
+        except Exception:
+            self.editor.set_value(datetime_format(datetime.now()))
+            self.editor.render()
+            self.textwindow.refresh()
