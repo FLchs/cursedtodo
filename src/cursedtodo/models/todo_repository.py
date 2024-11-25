@@ -42,10 +42,8 @@ class TodoRepository:
     def get_lists_names() -> list[str]:
         calendar_dir = path.expanduser(
             str(Config.get("MAIN", "calendars"))
-        )
-        if calendar_dir[-1] == "*":
-            calendar_dir = calendar_dir[: len(calendar_dir) - 1]
-        return [f.name for f in os.scandir(calendar_dir) if f.is_dir()]
+        ).strip("*")
+        return [f.name for f in os.scandir(calendar_dir) if f.is_dir() and f.name != "*"]
 
     @staticmethod
     def save(todo: Todo) -> None:
@@ -53,8 +51,8 @@ class TodoRepository:
             calendar = Calendar()
             todo_item = IcsTodo()
             calendar_dir = path.expanduser(
-                str(Config.get("MAIN", "calendars"))
-            )
+                str(Config.get("MAIN", "calendars")).strip("*/")
+            )            
             new_dir = os.path.join(calendar_dir, todo.list)
             os.makedirs(new_dir, exist_ok=True)
             todo.path = os.path.join(new_dir, f"{uuid1()}.ics")
@@ -62,7 +60,6 @@ class TodoRepository:
             with open(todo.path, "r") as f:
                 calendar = Calendar(f.read())
             todo_item = calendar.todos.pop()
-            # raise Exception(self)
             if todo_item is None:
                 raise Exception("Todo cannot be opened")
 
