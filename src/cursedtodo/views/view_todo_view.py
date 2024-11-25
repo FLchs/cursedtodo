@@ -46,7 +46,9 @@ class ViewTodoView(BaseView):
 
         if todo.completed:
             self.window.addstr(line, 1, "Completed: ", A_BOLD)
-            self.window.addstr(todo.completed.humanize())
+            self.window.addstr(
+                f"{todo.completed.strftime(str(Config.get("UI", "date_format")))}"
+            )
             line += 1
 
         if todo.due:
