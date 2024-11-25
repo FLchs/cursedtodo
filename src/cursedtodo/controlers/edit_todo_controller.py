@@ -26,8 +26,6 @@ class EditTodoController(Controller):
         return False
 
     def create_or_update_todo(self, data: dict[str, Any]) -> None:
-        # if self.todo is None:
-        #     raise Exception("No todo provided")
         summary = Validator.validate(data.get("summary"), str)
         description = Validator.validate(data.get("description"), str)
         location = Validator.validate(data.get("location"), str)
