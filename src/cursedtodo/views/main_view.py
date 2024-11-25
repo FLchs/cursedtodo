@@ -31,6 +31,7 @@ class MainView(BaseView):
             " q : quit | c: show completed | o : change order | space : mark as done | d: delete",
         )
         self.window.refresh()
+        self.pad = newpad(max(len(self.controller.data), self.length), self.length)
         self.render_content()
 
     def render_line(self, pad: window, y: int, todo: Todo) -> None:
@@ -50,7 +51,8 @@ class MainView(BaseView):
             pad.chgat(y, 0, self.length, curses.A_STANDOUT)
 
     def render_content(self) -> None:
-        self.pad = newpad(max(len(self.controller.data), self.length), self.length)
+        self.pad.clear()
+        self.pad.resize(max(len(self.controller.data), self.length), self.length)
         if self.height - self.selected > self.index:
             self.index = self.selected - self.height + 3
         for i, todo in enumerate(self.controller.data):
