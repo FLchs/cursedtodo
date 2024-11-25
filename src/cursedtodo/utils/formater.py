@@ -44,3 +44,22 @@ class Formater:
         word = words[priority]
         color_pair = curses.color_pair(priority + 10)
         return word, color_pair
+
+    @staticmethod
+    def parse_priority(string: str | None) -> int:
+        if string is None :
+            return 0
+        words = [
+            "Lowest",
+            "Very Low",
+            "Low",
+            "Below Average",
+            "Average",
+            "Above Average",
+            "High",
+            "Very High",
+            "Highest",
+            "Critical",
+        ]
+        return words.index(string) or 0
+
