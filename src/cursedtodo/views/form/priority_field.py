@@ -16,9 +16,8 @@ class PriorityField(BaseField):
         validator: Callable[[int | str], int | str],
     ):
         super().__init__(y, window, name, id, validator, None)
-        self.value:str = None
-        # self.priorities = [Formater.formatPriority(x)[0] for x in range(0,10)]
-        self.priorities = Formater.words
+        self.priorities = [p.value for p in Formater.priorities]
+        self.value: str = self.priorities[0]
         self.textwindow = window.derwin(1, 25, y, 15)
         self.validator = validator
         self.editor = SelectInput(self.textwindow, self.priorities, self._validator, False)
@@ -31,9 +30,8 @@ class PriorityField(BaseField):
     def render(self) -> None:
         self.window.addstr(self.y, 1, f"{self.name}: ", A_BOLD)
         self.textwindow.move(0, 0)
-        value_index = int(self.value) if self.value is not None else 0
         if self.value is not None:
-            self.editor.set_value(self.priorities[value_index])
+            self.editor.set_value(self.value)
         self.editor.render()
 
     def focus(self) -> None:
