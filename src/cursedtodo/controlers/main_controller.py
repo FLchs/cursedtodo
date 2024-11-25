@@ -22,6 +22,10 @@ class MainController(Controller):
     def handle_key(self, key: int) -> bool:
         if key == 10:
             self.router.route_view_todo(self.data[self.view.selected])
+            self.data = TodoRepository.get_list(self.show_completed, self.asc)
+            self.view.render()
+        if key == ord("e"):
+            self.router.route_edit_todo(self.data[self.view.selected])
             self.view.render()
         if key == KEY_RESIZE:
             self.view.render()
@@ -44,9 +48,11 @@ class MainController(Controller):
         if key == 32:
             todo = self.data[self.view.selected]
             todo.mark_as_done()
+            TodoRepository.save(todo)
             self.data = TodoRepository.get_list(self.show_completed, self.asc)
-            if not self.show_completed:
+            if not self.show_completed and todo.completed is not None:
                 self.data.append(todo)
+            self.view.selected = 0
             self.view.render()
         if key == ord("x"):
             result = Dialog.confirm(
@@ -55,7 +61,7 @@ class MainController(Controller):
                 self.view.render,
             )
             if result:
-                self.data[self.view.selected].delete()
+                TodoRepository.delete(self.data[self.view.selected])
                 self.data = TodoRepository.get_list(self.show_completed, self.asc)
             self.view.render()
         return False
