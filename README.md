@@ -13,8 +13,9 @@ CursedTodo is developed in Python using the [Curses library](https://docs.python
 - [ ] Search
 
 ## Usage
-Cursedtodo need a config.ini files in $XDG_CONFIG_HOME/cursedtodo/
-Here is an example:
+Cursedtodo need a config.ini files in `$XDG_CONFIG_HOME/cursedtodo/`
+
+Here is an example [config.ini](config.ini):
 ```
 [MAIN]
 name = TODO
