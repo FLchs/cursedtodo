@@ -54,7 +54,7 @@ class EditTodoView(BaseView):
         self.window.erase()
         self.window.border()
         add_borders(self.window)
-        self.window.addstr(self.height - 1, 5, " tab: next field | esc: cancel ")
+        self.window.addstr(self.height - 1, 5, " tab: next field ")
         self.window.addstr(0, 5, " Edit todo ")
         draw_line(self.window, 8, self.length)
         for field in self.fields.values():
@@ -76,11 +76,7 @@ class EditTodoView(BaseView):
     def validator(self, ch: int | str) -> int | str:
         if ch == KEY_RESIZE:
             self.render()
-            return ch
-        # elif ch == "\t":
-        #     return "\n"
-        else:
-            return ch
+        return ch
 
     def main_loop(self) -> None:
         index = 0
