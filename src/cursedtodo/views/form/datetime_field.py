@@ -24,7 +24,12 @@ class DatetimeField(BaseField):
 
     def _validator(self, ch: str | int) -> str | int:
         if ch == KEY_RESIZE:
-            self.value = parse_to_datetime(self.editor.gather())
+            try:
+                self.value = parse_to_datetime(self.editor.gather())
+            except ValueError:
+            # TODO: we still need to be nice to the user there
+                pass
+        self.validator(ch)
         return ch
 
     def render(self) -> None:
