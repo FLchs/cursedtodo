@@ -7,10 +7,26 @@ CursedTodo is developed in Python using the [Curses library](https://docs.python
 ## Roadmap
 
 - [x] Basic todo list (ordered by priority, show/hide completed)
-- [ ] Todo creation, modification, and deletion
+- [x] Todo creation, modification, and deletion
 - [ ] Category filtering
 - [ ] Subtasks and linked todos
 - [ ] Search
+
+## Usage
+Cursedtodo need a config.ini files in $XDG_CONFIG_HOME/cursedtodo/
+Here is an example:
+```
+[MAIN]
+name = TODO
+calendars = ~/.local/share/vdirsyncer/calendar/*
+default_calendar = personal
+[UI]
+show_footer_keybindings = True
+select_first = True
+rounded_borders = True
+date_format = %%m/%%d/%%y %%H:%%M:%%S
+
+```
 
 ## License
 
