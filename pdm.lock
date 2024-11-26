@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:b0fd4f05be61218401de3e6531ecbf8775d781d2dbd08cddb5a48af09430532a"
+content_hash = "sha256:4ded7e4e6983747aa2473d7d5b7bfc6d3828ed544e0eba132fd0ea01cfecb1a8"
 
 [[metadata.targets]]
 requires_python = ">=3.12"
@@ -16,6 +16,7 @@ version = "1.3.0"
 requires_python = ">=3.8"
 summary = "Better dates & times for Python"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "python-dateutil>=2.7.0",
     "types-python-dateutil>=2.8.10",
@@ -31,6 +32,7 @@ version = "24.2.0"
 requires_python = ">=3.7"
 summary = "Classes Without Boilerplate"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "importlib-metadata; python_version < \"3.8\"",
 ]
@@ -44,6 +46,7 @@ name = "ics"
 version = "0.7.2"
 summary = "Python icalendar (rfc5545) parser"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "arrow>=0.11",
     "attrs>=19.1.0",
@@ -62,6 +65,7 @@ version = "2.9.0.post0"
 requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 summary = "Extensions to the standard Python datetime module"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "six>=1.5",
 ]
@@ -76,6 +80,7 @@ version = "1.16.0"
 requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 summary = "Python 2 and 3 compatibility utilities"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
@@ -83,22 +88,24 @@ files = [
 
 [[package]]
 name = "tatsu"
-version = "5.12.1"
+version = "5.12.2"
 requires_python = ">=3.11"
 summary = "TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python."
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 files = [
-    {file = "TatSu-5.12.1-py3-none-any.whl", hash = "sha256:97073bcf496a54adc6c87043cfd70c177a5f5f95c09c3ba0cfea43286ea728e1"},
-    {file = "tatsu-5.12.1.tar.gz", hash = "sha256:57a6da442f71f07cac4fc99c5f997e2559e340b9e5177449dc35b751e18e3405"},
+    {file = "TatSu-5.12.2-py3-none-any.whl", hash = "sha256:9c313186ae5262662cb3fbec52c9a12db1ef752e615f46cac3eb568cb91eacf9"},
+    {file = "tatsu-5.12.2.tar.gz", hash = "sha256:5894dc7ddba9a1886a95ff2f06cef1be2b3d3a37c776eba8177ef4dcd80ccb03"},
 ]
 
 [[package]]
 name = "types-python-dateutil"
-version = "2.9.0.20240906"
+version = "2.9.0.20241003"
 requires_python = ">=3.8"
 summary = "Typing stubs for python-dateutil"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 files = [
-    {file = "types-python-dateutil-2.9.0.20240906.tar.gz", hash = "sha256:9706c3b68284c25adffc47319ecc7947e5bb86b3773f843c73906fd598bc176e"},
-    {file = "types_python_dateutil-2.9.0.20240906-py3-none-any.whl", hash = "sha256:27c8cc2d058ccb14946eebcaaa503088f4f6dbc4fb6093d3d456a49aef2753f6"},
+    {file = "types-python-dateutil-2.9.0.20241003.tar.gz", hash = "sha256:58cb85449b2a56d6684e41aeefb4c4280631246a0da1a719bdbe6f3fb0317446"},
+    {file = "types_python_dateutil-2.9.0.20241003-py3-none-any.whl", hash = "sha256:250e1d8e80e7bbc3a6c99b907762711d1a1cdd00e978ad39cb5940f6f0a87f3d"},
 ]

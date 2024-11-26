@@ -1,21 +1,21 @@
-from curses import curs_set, start_color, use_default_colors, window, wrapper
+from curses import curs_set, window, wrapper
+import curses
+import sys
+from cursedtodo.utils.router import Router
 
-from cursedtodo.presenters.todolist import TodoListPresenter
-from cursedtodo.views.todolist import TodoListView
 
-
-def cursedtodo(stdscr: window) -> None:
-    start_color()
-    use_default_colors()
+def app(stdscreen: window) -> None:
     curs_set(0)
-    stdscr.refresh()
-    view = TodoListView()
-    presenter = TodoListPresenter(stdscr, view)
-    presenter.run()
+    curses.use_default_colors()
+    router = Router(stdscreen)
+    router.route_main()
 
 
-def main():
-    wrapper(cursedtodo)
+def main() -> None:
+    try:
+        wrapper(app)
+    except KeyboardInterrupt:
+        sys.exit(0)
 
 
 if __name__ == "__main__":
