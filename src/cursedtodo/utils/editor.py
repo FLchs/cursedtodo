@@ -153,22 +153,14 @@ class Editor:
 
     def render(self) -> None:
         buffer = self.buffer
-        lines, cols = self.lines, self.cols
         window = self.window
         cursor = self.cursor
         self.stdscr.erase()
-        # raise Exception(buffer, lines, cols, window, cursor)
         if len(buffer.lines) > window.n_rows:
-            pct = (window.row) / (len(buffer.lines))
             y_pos = min(
                 (window.row) / (len(buffer.lines) - window.n_rows) * window.n_rows,
                 window.n_rows,
             )
-            # self.stdscr.addstr(
-            #     window.n_rows,
-            #     10,
-            #     f"{window.row} - {window.n_rows} - {len(buffer.lines)} - {y_pos}",
-            # )
             for row in range(window.n_rows + 1):
                 if row == round(y_pos):
                     self.stdscr.addch(row, window.n_cols, "█")
@@ -186,7 +178,6 @@ class Editor:
 
     def main(self) -> None:
         buffer = self.buffer
-        lines, cols = self.lines, self.cols
         window = self.window
         self.stdscr.keypad(True)
         cursor = self.cursor
@@ -221,7 +212,7 @@ class Editor:
                 if (cursor.row, cursor.col) > (0, 0):
                     left(window, buffer, cursor)
                     buffer.delete(cursor)
-            elif k == '\x0e' or k == '\x1b':
+            elif k == "\x0e" or k == "\x1b":
                 break
             elif isinstance(k, str):
                 if k == "\t":
