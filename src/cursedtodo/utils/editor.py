@@ -212,11 +212,13 @@ class Editor:
                 if (cursor.row, cursor.col) > (0, 0):
                     left(window, buffer, cursor)
                     buffer.delete(cursor)
-            elif k == "\x0e" or k == "\x1b":
+            elif k == curses.KEY_BTAB:
+                buffer.insert(cursor, "  ")
+                right(window, buffer, cursor)
+                right(window, buffer, cursor)
+            elif k == "\t":
                 break
             elif isinstance(k, str):
-                if k == "\t":
-                    k = "  "
                 buffer.insert(cursor, k)
                 for _ in k:
                     right(window, buffer, cursor)
