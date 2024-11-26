@@ -1,17 +1,16 @@
 [project]
 name = "cursedtodo"
-version = "0.1.0"
+version = "0.0.1a"
 description = "Default template for PDM package"
-authors = [
-    {name = "François Lachèse", email = "francois.lachese@gmail.com"},
-]
-dependencies = [
-    "mypy>=1.11.2",
-    "ics>=0.7.2",
-]
+authors = [{ name = "François Lachèse", email = "francois.lachese@gmail.com" }]
+dependencies = ["ics>=0.7.2"]
+
+[dependency-groups]
+dev = ["mypy>=1.11.2"]
+
 requires-python = ">=3.12"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 [project.scripts]
 ctodo = "cursedtodo.cursedtodo:main"

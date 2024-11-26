@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:08222e686af4760d28ebf237d0fdf0f1a1992eb5dc3aabc31b93878f676e3cbc"
+content_hash = "sha256:4ded7e4e6983747aa2473d7d5b7bfc6d3828ed544e0eba132fd0ea01cfecb1a8"
 
 [[metadata.targets]]
 requires_python = ">=3.12"
@@ -16,6 +16,7 @@ version = "1.3.0"
 requires_python = ">=3.8"
 summary = "Better dates & times for Python"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "python-dateutil>=2.7.0",
     "types-python-dateutil>=2.8.10",
@@ -31,6 +32,7 @@ version = "24.2.0"
 requires_python = ">=3.7"
 summary = "Classes Without Boilerplate"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "importlib-metadata; python_version < \"3.8\"",
 ]
@@ -44,6 +46,7 @@ name = "ics"
 version = "0.7.2"
 summary = "Python icalendar (rfc5545) parser"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "arrow>=0.11",
     "attrs>=19.1.0",
@@ -57,43 +60,12 @@ files = [
 ]
 
 [[package]]
-name = "mypy"
-version = "1.11.2"
-requires_python = ">=3.8"
-summary = "Optional static typing for Python"
-groups = ["default"]
-dependencies = [
-    "mypy-extensions>=1.0.0",
-    "tomli>=1.1.0; python_version < \"3.11\"",
-    "typing-extensions>=4.6.0",
-]
-files = [
-    {file = "mypy-1.11.2-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:e8960dbbbf36906c5c0b7f4fbf2f0c7ffb20f4898e6a879fcf56a41a08b0d318"},
-    {file = "mypy-1.11.2-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:06d26c277962f3fb50e13044674aa10553981ae514288cb7d0a738f495550b36"},
-    {file = "mypy-1.11.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:6e7184632d89d677973a14d00ae4d03214c8bc301ceefcdaf5c474866814c987"},
-    {file = "mypy-1.11.2-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:3a66169b92452f72117e2da3a576087025449018afc2d8e9bfe5ffab865709ca"},
-    {file = "mypy-1.11.2-cp312-cp312-win_amd64.whl", hash = "sha256:969ea3ef09617aff826885a22ece0ddef69d95852cdad2f60c8bb06bf1f71f70"},
-    {file = "mypy-1.11.2-py3-none-any.whl", hash = "sha256:b499bc07dbdcd3de92b0a8b29fdf592c111276f6a12fe29c30f6c417dd546d12"},
-    {file = "mypy-1.11.2.tar.gz", hash = "sha256:7f9993ad3e0ffdc95c2a14b66dee63729f021968bff8ad911867579c65d13a79"},
-]
-
-[[package]]
-name = "mypy-extensions"
-version = "1.0.0"
-requires_python = ">=3.5"
-summary = "Type system extensions for programs checked with the mypy type checker."
-groups = ["default"]
-files = [
-    {file = "mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d"},
-    {file = "mypy_extensions-1.0.0.tar.gz", hash = "sha256:75dbf8955dc00442a438fc4d0666508a9a97b6bd41aa2f0ffe9d2f2725af0782"},
-]
-
-[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 summary = "Extensions to the standard Python datetime module"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 dependencies = [
     "six>=1.5",
 ]
@@ -108,6 +80,7 @@ version = "1.16.0"
 requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 summary = "Python 2 and 3 compatibility utilities"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
@@ -115,33 +88,24 @@ files = [
 
 [[package]]
 name = "tatsu"
-version = "5.12.1"
+version = "5.12.2"
 requires_python = ">=3.11"
 summary = "TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python."
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 files = [
-    {file = "TatSu-5.12.1-py3-none-any.whl", hash = "sha256:97073bcf496a54adc6c87043cfd70c177a5f5f95c09c3ba0cfea43286ea728e1"},
-    {file = "tatsu-5.12.1.tar.gz", hash = "sha256:57a6da442f71f07cac4fc99c5f997e2559e340b9e5177449dc35b751e18e3405"},
+    {file = "TatSu-5.12.2-py3-none-any.whl", hash = "sha256:9c313186ae5262662cb3fbec52c9a12db1ef752e615f46cac3eb568cb91eacf9"},
+    {file = "tatsu-5.12.2.tar.gz", hash = "sha256:5894dc7ddba9a1886a95ff2f06cef1be2b3d3a37c776eba8177ef4dcd80ccb03"},
 ]
 
 [[package]]
 name = "types-python-dateutil"
-version = "2.9.0.20240906"
+version = "2.9.0.20241003"
 requires_python = ">=3.8"
 summary = "Typing stubs for python-dateutil"
 groups = ["default"]
+marker = "python_version >= \"3.12\""
 files = [
-    {file = "types-python-dateutil-2.9.0.20240906.tar.gz", hash = "sha256:9706c3b68284c25adffc47319ecc7947e5bb86b3773f843c73906fd598bc176e"},
-    {file = "types_python_dateutil-2.9.0.20240906-py3-none-any.whl", hash = "sha256:27c8cc2d058ccb14946eebcaaa503088f4f6dbc4fb6093d3d456a49aef2753f6"},
-]
-
-[[package]]
-name = "typing-extensions"
-version = "4.12.2"
-requires_python = ">=3.8"
-summary = "Backported and Experimental Type Hints for Python 3.8+"
-groups = ["default"]
-files = [
-    {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
-    {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
+    {file = "types-python-dateutil-2.9.0.20241003.tar.gz", hash = "sha256:58cb85449b2a56d6684e41aeefb4c4280631246a0da1a719bdbe6f3fb0317446"},
+    {file = "types_python_dateutil-2.9.0.20241003-py3-none-any.whl", hash = "sha256:250e1d8e80e7bbc3a6c99b907762711d1a1cdd00e978ad39cb5940f6f0a87f3d"},
 ]
