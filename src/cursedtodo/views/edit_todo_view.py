@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, Dict
 
 from cursedtodo.models.todo_repository import TodoRepository
 from cursedtodo.utils.window_utils import add_borders, draw_line
+from cursedtodo.utils.config import Config
 from cursedtodo.views.base_view import BaseView
 from cursedtodo.views.form.Button import Button
 from cursedtodo.views.form.base_field import BaseField
@@ -27,9 +28,10 @@ class EditTodoView(BaseView):
         self.height, self.length = self.window.getmaxyx()
         todo = self.controller.todo
         lists = TodoRepository.get_lists_names()
+        default_list = Config.get("MAIN", "default_calendar") 
 
         self.fields: Dict[str, BaseField] = {
-            "list": SelectField(2, self.window, "List", "list", lists ,self.validator),
+            "list": SelectField(2, self.window, "List", "list", lists , self.validator, default_list),
             "summary": TextInputField(3, self.window, "Summary", "summary", self.validator, ""),
             "priority": PriorityField(4, self.window, "Priority", "priority",self.validator),
             "due": DatetimeField(5, self.window, "due", self.validator),

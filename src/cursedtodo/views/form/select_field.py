@@ -14,9 +14,10 @@ class SelectField(BaseField):
         id: str,
         values: list[str],
         validator: Callable[[int | str], int | str],
+        default_value: str | None = None,
     ):
         super().__init__(y, window, name, id, validator, None)
-        self.value: str = ""
+        self.value: str = default_value or ""
         self.values = values
         self.textwindow = window.derwin(1, 25, y, 15)
         self.validator = validator
@@ -30,12 +31,11 @@ class SelectField(BaseField):
     def render(self) -> None:
         self.window.addstr(self.y, 1, f"{self.name}: ", A_BOLD)
         self.textwindow.move(0, 0)
-        if self.value is not None and len(self.value) > 0:
+        if len(self.value) > 0:
             self.editor.set_value(self.value)
         else:
             self.value = self.values[0]
         self.editor.render()
-        # Editor().main(self.textwindow,self.value or "")
 
     def focus(self) -> None:
         self.editor.main()
