@@ -152,6 +152,7 @@ class Editor:
         return "\n".join(self.buffer.lines)
 
     def render(self) -> None:
+        # TODO: Improve resize
         buffer = self.buffer
         window = self.window
         cursor = self.cursor
@@ -222,5 +223,3 @@ class Editor:
                 buffer.insert(cursor, k)
                 for _ in k:
                     right(window, buffer, cursor)
-            else:
-                raise Exception(k, curses.KEY_CTAB, curses.KEY_BTAB)

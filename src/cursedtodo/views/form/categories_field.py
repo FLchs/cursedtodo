@@ -24,7 +24,8 @@ class CategoriesField(BaseField):
 
     def _validator(self, ch: str | int) -> str | int:
         if ch == KEY_RESIZE:
-            self.value = self.editor.gather().split(",")
+            self.value = [cat.strip() for cat in self.editor.gather().split(',')]
+        self.validator(ch)
         return ch
 
     def render(self) -> None:

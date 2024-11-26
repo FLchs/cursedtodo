@@ -19,8 +19,10 @@ class Button:
         self.action = action
         self.validator = validator
 
-    def render(self) -> None:
-        self.window.addstr(self.y, self.x, self.name)
+    def render(self, y: int, x: int) -> None:
+        self.y = y
+        self.x = x
+        self.window.addstr(y, x, self.name)
 
     def focus(self) -> bool | None:
         curs_set(0)

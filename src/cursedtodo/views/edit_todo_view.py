@@ -61,8 +61,8 @@ class EditTodoView(BaseView):
         draw_line(self.window, 8, self.length)
         for field in self.fields.values():
             field.render()
-        self.save_button.render()
-        self.cancel_button.render()
+        self.save_button.render(self.height-2, 1)
+        self.cancel_button.render(self.height-2, 10)
         self.window.refresh()
 
     def save(self) -> bool:
