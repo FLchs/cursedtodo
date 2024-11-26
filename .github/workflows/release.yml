@@ -1,7 +1,8 @@
+name: Release
 on:
-  release:
-    types: [published]
-
+  # release:
+  #   types: [published]
+  workflow_dispatch:
 
 jobs:
   pypi-publish:
@@ -18,4 +19,4 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
 
       - name: Publish package distributions to PyPI
-        run: pdm publish
+        run: pdm build
