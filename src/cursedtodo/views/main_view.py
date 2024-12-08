@@ -28,7 +28,7 @@ class MainView(BaseView):
         self.window.addstr(
             self.height - 1,
             5,
-            " q : quit | c: show completed | o : change order | space : mark as done | d: delete",
+            " q : quit | c: show completed | o : change order | space : mark as done | d: delete ",
         )
         self.window.refresh()
         self.pad = newpad(max(len(self.controller.data), self.length), self.length)
@@ -44,7 +44,9 @@ class MainView(BaseView):
         )
         pad.addnstr(y, 0, todo.list.ljust(columns[0]), columns[0])
         pad.addnstr(summary.ljust(columns[1]), columns[1])
-        text, color = Formater.formatPriority(todo.priority) if todo.priority >0 else ("", 0)
+        text, color = (
+            Formater.formatPriority(todo.priority) if todo.priority > 0 else ("", 0)
+        )
         pad.addnstr(text.ljust(columns[2]), columns[2], color)
         pad.addnstr(str(todo.due or "").ljust(columns[3]), columns[3])
         if todo.completed:
