@@ -1,13 +1,13 @@
 # Calendars configuration
 [[calendars]]
-name = "personal"
+name = "Personal"
 path = "~/.local/share/vdirsyncer/calendar/personal"
 color = "blue"
 default = true
 
 [[calendars]]
-name= "grocesirs"
-path = "~/.local/share/vdirsyncer/calendar/courses"
+name= "Work"
+path = "~/.local/share/vdirsyncer/calendar/work"
 color = "green"
 default = false
 
