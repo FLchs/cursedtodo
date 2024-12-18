@@ -1,17 +1,18 @@
 # Calendars configuration
-[Calendars]
-[Calendars.personal]
+[[calendars]]
+name = "personal"
 path = "~/.local/share/vdirsyncer/calendar/personal"
 color = "blue"
 default = true
 
-[Calendars.work]
-path = "~/some/other/path/work"
+[[calendars]]
+name= "grocesirs"
+path = "~/.local/share/vdirsyncer/calendar/courses"
 color = "green"
 default = false
 
 # UI configuration
-[UI]
+[ui]
 window_name = "Todos"
 show_footer_keybindings = true
 select_first = true
