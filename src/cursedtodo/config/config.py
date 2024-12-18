@@ -14,6 +14,9 @@ class CalendarConfig:
     color: Optional[str] = None
     default: Optional[bool] = None
 
+    def __post_init__(self) -> None:
+        self.path = os.path.expanduser(self.path)
+
 
 @dataclass
 class UIConfig:

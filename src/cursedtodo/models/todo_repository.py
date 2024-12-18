@@ -44,17 +44,18 @@ class TodoRepository:
 
     @staticmethod
     def get_lists_names() -> list[str]:
-        return ["nigga"]
+        return [cal.name for cal in Config.calendars]
 
     @staticmethod
     def save(todo: Todo) -> None:
         if todo.path is None:
             calendar = Calendar()
             todo_item = IcsTodo()
-            calendar_dir = path.expanduser(Config.calendars["personal"].path)
-            new_dir = os.path.join(calendar_dir, todo.list)
-            os.makedirs(new_dir, exist_ok=True)
-            todo.path = os.path.join(new_dir, f"{uuid1()}.ics")
+            local_calendar_path = next(
+                filter(lambda cal: cal.default, Config.calendars)
+            ).path
+            os.makedirs(local_calendar_path, exist_ok=True)
+            todo.path = os.path.join(local_calendar_path, f"{uuid1()}.ics")
         else:
             with open(todo.path, "r") as f:
                 calendar = Calendar(f.read())
