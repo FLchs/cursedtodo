@@ -9,6 +9,7 @@ from cursedtodo.config.arguments import Arguments
 
 @dataclass
 class CalendarConfig:
+    name: str
     path: str
     color: Optional[str] = None
     default: Optional[bool] = None
@@ -21,21 +22,26 @@ class UIConfig:
     select_first: bool
     rounded_borders: bool
     date_format: str
+    default_calendar: Optional[str] = None
 
 
 @dataclass
 class _Config:
-    calendars: dict[str, CalendarConfig]
+    calendars: list[CalendarConfig]
     ui: UIConfig
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "_Config":
         print("Parsing configuration file...")
-        calendars = {
-            name: CalendarConfig(**details)
-            for name, details in data.get("Calendars", {}).items()
-        }
-        ui = UIConfig(**data.get("UI", {}))
+        calendars: list[CalendarConfig] = [
+            CalendarConfig(**cal) for cal in data.get("calendars", {})
+        ]
+        ui = UIConfig(**data.get("ui", {}))
+        default_calendar = next(filter(lambda cal: cal.default, calendars))
+        ui.default_calendar = (
+            default_calendar.name if default_calendar is not None else None
+        )
+        # raise Exception(calendars, data)
         return cls(calendars=calendars, ui=ui)
 
 
@@ -56,6 +62,3 @@ def _init_config() -> _Config:
         data = tomllib.load(file)
 
     return _Config.from_dict(data)
-
-
-Config = _init_config()
