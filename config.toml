@@ -2,7 +2,7 @@
 [[calendars]]
 name = "Personal"
 path = "~/.local/share/vdirsyncer/calendar/personal"
-color = "blue"
+color = "blue" # TODO: implement colors
 default = true
 
 [[calendars]]
