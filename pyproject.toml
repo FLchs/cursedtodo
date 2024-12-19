@@ -26,8 +26,6 @@ source = "scm"
 
 [tool.pdm.scripts]
 debug = "python -m debugpy --listen 127.0.0.1:5678 --wait-for-client -m cursedtodo.cursedtodo"
-ctodo = "cursedtodo"
-
 
 [tool.mypy]
 mypy_path = "src/"
