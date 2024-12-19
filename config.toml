@@ -2,7 +2,8 @@
 [[calendars]]
 name = "Personal"
 path = "~/.local/share/vdirsyncer/calendar/personal"
-color = "blue" # TODO: implement colors
+# available colors : black, red, green, yellow, blue, magenta, cyan, white
+color = "blue"
 default = true
 
 [[calendars]]
@@ -18,4 +19,3 @@ show_footer_keybindings = true
 select_first = true
 rounded_borders = true
 date_format = "%m/%d/%y %H:%M:%S"
-

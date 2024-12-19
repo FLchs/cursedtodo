@@ -21,6 +21,7 @@ Here is an example [config.toml](config.toml):
 [[calendars]]
 name = "Personal"
 path = "~/.local/share/vdirsyncer/calendar/personal"
+# available colors : black, red, green, yellow, blue, magenta, cyan, white
 color = "blue"
 default = true
 

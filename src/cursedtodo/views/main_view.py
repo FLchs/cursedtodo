@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import curses
-from curses import newpad, window
+from curses import COLOR_GREEN, color_pair, init_color, init_pair, newpad, window
 from typing import TYPE_CHECKING
 
 from cursedtodo.config import Config
@@ -43,7 +43,13 @@ class MainView(BaseView):
             if len(todo.summary) > columns[1] - 12
             else todo.summary
         )
-        pad.addnstr(y, 0, todo.list.ljust(columns[0]), columns[0])
+        pad.addnstr(
+            y,
+            0,
+            todo.list.ljust(columns[0]),
+            columns[0],
+            todo.calendar.color_attr,
+        )
         pad.addnstr(summary.ljust(columns[1]), columns[1])
         text, color = (
             Formater.formatPriority(todo.priority) if todo.priority > 0 else ("", 0)

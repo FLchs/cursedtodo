@@ -5,17 +5,7 @@ import tomllib
 from typing import Any, Optional
 
 from cursedtodo.config.arguments import Arguments
-
-
-@dataclass
-class CalendarConfig:
-    name: str
-    path: str
-    color: Optional[str] = None
-    default: Optional[bool] = None
-
-    def __post_init__(self) -> None:
-        self.path = os.path.expanduser(self.path)
+from cursedtodo.models.calendar import Calendar
 
 
 @dataclass
@@ -30,14 +20,14 @@ class UIConfig:
 
 @dataclass
 class _Config:
-    calendars: list[CalendarConfig]
+    calendars: list[Calendar]
     ui: UIConfig
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "_Config":
         print("Parsing configuration file...")
-        calendars: list[CalendarConfig] = [
-            CalendarConfig(**cal) for cal in data.get("calendars", {})
+        calendars: list[Calendar] = [
+            Calendar(i, **cal) for i, cal in enumerate(data.get("calendars", {}))
         ]
         ui = UIConfig(**data.get("ui", {}))
         default_calendar = next(filter(lambda cal: cal.default, calendars))
