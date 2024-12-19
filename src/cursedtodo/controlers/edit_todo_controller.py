@@ -1,5 +1,7 @@
 from datetime import datetime
+from os import name
 from typing import Any
+from cursedtodo.config import Config
 from cursedtodo.controlers.base_controller import Controller
 from curses import KEY_RESIZE
 
@@ -33,26 +35,27 @@ class EditTodoController(Controller):
         list = data.get("list", "")
         priority = Formater.parse_priority(data.get("priority"))
         due = Validator.validate_optional(data.get("due"), datetime)
+        calendar = next(filter(lambda cal: cal.name == list, Config.calendars))
 
         if self.todo is None:
             todo = Todo(
                 "",
+                calendar,
                 summary,
                 description,
                 categories,
-                list,
                 None,
                 priority,
                 None,
                 due,
                 location,
-            ) 
+            )
         else:
             todo = self.todo
+            todo.calendar = calendar
             todo.summary = summary
             todo.description = description
             todo.categories = categories
-            todo.list = list
             todo.due = due
             todo.location = location
             todo.priority = priority

@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 
-from cursedtodo.utils.config import Config
+from cursedtodo.config import Config
 from cursedtodo.utils.formater import Formater
 from cursedtodo.utils.time import get_locale_tz
 from cursedtodo.utils.window_utils import add_borders, draw_line
@@ -36,7 +36,7 @@ class ViewTodoView(BaseView):
         line = 1
 
         self.window.addstr(line, 1, "Liste: ", A_BOLD)
-        self.window.addstr(todo.list)
+        self.window.addstr(todo.calendar.name, todo.calendar.color_attr)
         line += 1
 
         self.window.addstr(line, 1, "Priority: ", A_BOLD)
@@ -46,9 +46,7 @@ class ViewTodoView(BaseView):
 
         if todo.completed:
             self.window.addstr(line, 1, "Completed: ", A_BOLD)
-            self.window.addstr(
-                f"{todo.completed.strftime(str(Config.get("UI", "date_format")))}"
-            )
+            self.window.addstr(f"{todo.completed.strftime(Config.ui.date_format)}")
             line += 1
 
         if todo.due:
@@ -56,9 +54,7 @@ class ViewTodoView(BaseView):
             init_pair(21, COLOR_RED, -1)
             local_tz = get_locale_tz()
             color = 21 if todo.due.replace() > datetime.now(local_tz) else -1
-            self.window.addstr(
-                f"{todo.due.strftime(str(Config.get("UI", "date_format")))}"
-            )
+            self.window.addstr(f"{todo.due.strftime(Config.ui.date_format)}")
             # self.window.addstr(f" {todo.due.humanize()}", color_pair(21))
             line += 1
 

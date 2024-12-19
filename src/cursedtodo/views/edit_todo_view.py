@@ -4,9 +4,9 @@ from curses import KEY_RESIZE
 from typing import TYPE_CHECKING, Any, Dict
 
 
+from cursedtodo.config import Config
 from cursedtodo.models.todo_repository import TodoRepository
 from cursedtodo.utils.window_utils import add_borders, draw_line
-from cursedtodo.utils.config import Config
 from cursedtodo.views.base_view import BaseView
 from cursedtodo.views.form.Button import Button
 from cursedtodo.views.form.base_field import BaseField
@@ -28,27 +28,38 @@ class EditTodoView(BaseView):
         self.height, self.length = self.window.getmaxyx()
         todo = self.controller.todo
         lists = TodoRepository.get_lists_names()
-        default_list = Config.get("MAIN", "default_calendar") 
+        default_list = Config.ui.default_calendar
 
         self.fields: Dict[str, BaseField] = {
-            "list": SelectField(2, self.window, "List", "list", lists , self.validator, default_list),
-            "summary": TextInputField(3, self.window, "Summary", "summary", self.validator, ""),
-            "priority": PriorityField(4, self.window, "Priority", "priority",self.validator),
-            "due": DatetimeField(5, self.window, "due", self.validator),
-            "categories": CategoriesField(
-                6, self.window, "categories", self.validator
+            "list": SelectField(
+                2, self.window, "List", "list", lists, self.validator, default_list
             ),
-            "location": TextInputField(7, self.window, "Location", "location", self.validator),
+            "summary": TextInputField(
+                3, self.window, "Summary", "summary", self.validator, ""
+            ),
+            "priority": PriorityField(
+                4, self.window, "Priority", "priority", self.validator
+            ),
+            "due": DatetimeField(5, self.window, "due", self.validator),
+            "categories": CategoriesField(6, self.window, "categories", self.validator),
+            "location": TextInputField(
+                7, self.window, "Location", "location", self.validator
+            ),
             "description": TextArea(
                 9, self.window, "Description", "description", self.validator, ""
             ),
         }
         if todo:
             for key, field in self.fields.items():
-                field.value = getattr(todo, key)
-        self.save_button = Button(self.window, self.height-2, 1, "[ Save ]", self.save, self.validator)
+                if key == "list":
+                    field.value = todo.calendar.name
+                else:
+                    field.value = getattr(todo, key)
+        self.save_button = Button(
+            self.window, self.height - 2, 1, "[ Save ]", self.save, self.validator
+        )
         self.cancel_button = Button(
-            self.window, self.height-2, 10, "[ Cancel ]", self.cancel, self.validator
+            self.window, self.height - 2, 10, "[ Cancel ]", self.cancel, self.validator
         )
 
     def render(self) -> None:
@@ -61,8 +72,8 @@ class EditTodoView(BaseView):
         draw_line(self.window, 8, self.length)
         for field in self.fields.values():
             field.render()
-        self.save_button.render(self.height-2, 1)
-        self.cancel_button.render(self.height-2, 10)
+        self.save_button.render(self.height - 2, 1)
+        self.cancel_button.render(self.height - 2, 10)
         self.window.refresh()
 
     def save(self) -> bool:

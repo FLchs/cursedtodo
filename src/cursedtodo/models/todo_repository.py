@@ -4,58 +4,57 @@ import os
 from uuid import uuid1
 
 from ics import Calendar, Todo as IcsTodo
+from cursedtodo.config import Config
 from cursedtodo.models.todo import Todo
-from cursedtodo.utils.config import Config
 
 
 class TodoRepository:
     @staticmethod
     def get_list(show_completed: bool = False, asc: bool = False) -> list[Todo]:
-        # calendar_dir = os.path.expanduser("~/.local/share/vdirsyncer/calendar/*")
-        calendar_dir = path.expanduser(
-            str(Config.get("MAIN", "calendars"))
-        )
-        ics_files = glob(path.join(calendar_dir, "*.ics"))
+        todos: list[Todo] = []
+        for calendar in Config.calendars:
+            calendar.init_color()
+            calendar_dir = os.path.expanduser(calendar.path)
+            ics_files = glob(path.join(calendar_dir, "*.ics"))
 
-        events_todos = [
-            Todo(
-                event.uid,
-                event.name or "",
-                event.description or "",
-                [getattr(x, "value", "") for x in event.extra if x.name == "CATEGORIES"]
-                or [],
-                path.basename(path.dirname(ics_file)),
-                ics_file,
-                event.priority or 0,
-                event.completed.datetime if event.completed is not None else None,
-                event.due.datetime if event.due is not None else None,
-                event.location,
-            )
-            for ics_file in ics_files
-            for event in Calendar(open(ics_file).read()).todos
-            if event.completed is None or show_completed
-        ]
+            events_todos = [
+                Todo(
+                    event.uid,
+                    calendar,
+                    event.name or "",
+                    event.description or "",
+                    [
+                        getattr(x, "value", "")
+                        for x in event.extra
+                        if x.name == "CATEGORIES"
+                    ]
+                    or [],
+                    ics_file,
+                    event.priority or 0,
+                    event.completed.datetime if event.completed is not None else None,
+                    event.due.datetime if event.due is not None else None,
+                    event.location,
+                )
+                for ics_file in ics_files
+                for event in Calendar(open(ics_file).read()).todos
+                if event.completed is None or show_completed
+            ]
 
-        return sorted(events_todos, reverse=not asc)
+            todos.extend(sorted(events_todos, reverse=not asc))
+        return todos
 
     @staticmethod
     def get_lists_names() -> list[str]:
-        calendar_dir = path.expanduser(
-            str(Config.get("MAIN", "calendars"))
-        ).strip("*")
-        return [f.name for f in os.scandir(calendar_dir) if f.is_dir() and f.name != "*"]
+        return [cal.name for cal in Config.calendars]
 
     @staticmethod
     def save(todo: Todo) -> None:
         if todo.path is None:
             calendar = Calendar()
             todo_item = IcsTodo()
-            calendar_dir = path.expanduser(
-                str(Config.get("MAIN", "calendars")).strip("*/")
-            )            
-            new_dir = os.path.join(calendar_dir, todo.list)
-            os.makedirs(new_dir, exist_ok=True)
-            todo.path = os.path.join(new_dir, f"{uuid1()}.ics")
+            local_calendar_path = todo.calendar.path
+            os.makedirs(local_calendar_path, exist_ok=True)
+            todo.path = os.path.join(local_calendar_path, f"{uuid1()}.ics")
         else:
             with open(todo.path, "r") as f:
                 calendar = Calendar(f.read())
