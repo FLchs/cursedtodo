@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import curses
-from curses import COLOR_GREEN, color_pair, init_color, init_pair, newpad, window
+from curses import newpad, window
 from typing import TYPE_CHECKING
 
 from cursedtodo.config import Config
@@ -29,7 +29,7 @@ class MainView(BaseView):
         self.window.addstr(
             self.height - 1,
             5,
-            " q : quit | c: show completed | o : change order | space : mark as done | d: delete ",
+            " q : quit | c: show completed | o : change order | space : mark as done | x: delete ",
         )
         self.window.refresh()
         self.pad = newpad(max(len(self.controller.data), self.length), self.length)

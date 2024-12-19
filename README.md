@@ -8,12 +8,18 @@ CursedTodo is developed in Python using the [Curses library](https://docs.python
 
 - [x] Basic todo list (ordered by priority, show/hide completed)
 - [x] Todo creation, modification, and deletion
+- [ ] Keymaps customization
 - [ ] Category filtering
 - [ ] Subtasks and linked todos
 - [ ] Search
+- [ ] Basic CLI for adding todos
+
+## Will not be implemented
+- Mouse support
 
 ## Usage
 Cursedtodo need a config.toml files in `$XDG_CONFIG_HOME/cursedtodo/`
+Keybinds are based on Vim hjkl for movement.
 
 Here is an example [config.toml](config.toml):
 ```
@@ -40,6 +46,11 @@ rounded_borders = true
 date_format = "%m/%d/%y %H:%M:%S"
 
 ```
+
+> [!IMPORTANT]  
+> Cursedtodo is still in early development, expect some bugs and possibly breaking changes to the
+> config file. Please backup your data regularly.
+
 
 ## License
 
