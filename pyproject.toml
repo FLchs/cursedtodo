@@ -34,3 +34,8 @@ strict = true
 [[tool.mypy.overrides]]
 module = "ics.*"
 ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+    "debugpy>=1.8.11",
+]
