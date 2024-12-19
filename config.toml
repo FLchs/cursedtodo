@@ -1,0 +1,21 @@
+# Calendars configuration
+[[calendars]]
+name = "Personal"
+path = "~/.local/share/vdirsyncer/calendar/personal"
+# available colors : black, red, green, yellow, blue, magenta, cyan, white
+color = "blue"
+default = true
+
+[[calendars]]
+name= "Work"
+path = "~/.local/share/vdirsyncer/calendar/work"
+color = "green"
+default = false
+
+# UI configuration
+[ui]
+window_name = "Todos"
+show_footer_keybindings = true
+select_first = true
+rounded_borders = true
+date_format = "%m/%d/%y %H:%M:%S"

@@ -13,19 +13,31 @@ CursedTodo is developed in Python using the [Curses library](https://docs.python
 - [ ] Search
 
 ## Usage
-Cursedtodo need a config.ini files in `$XDG_CONFIG_HOME/cursedtodo/`
+Cursedtodo need a config.toml files in `$XDG_CONFIG_HOME/cursedtodo/`
 
-Here is an example [config.ini](config.ini):
+Here is an example [config.toml](config.toml):
 ```
-[MAIN]
-name = TODO
-calendars = ~/.local/share/vdirsyncer/calendar/*
-default_calendar = personal
-[UI]
-show_footer_keybindings = True
-select_first = True
-rounded_borders = True
-date_format = %%m/%%d/%%y %%H:%%M:%%S
+# Calendars configuration
+[[calendars]]
+name = "Personal"
+path = "~/.local/share/vdirsyncer/calendar/personal"
+# available colors : black, red, green, yellow, blue, magenta, cyan, white
+color = "blue"
+default = true
+
+[[calendars]]
+name= "Work"
+path = "~/.local/share/vdirsyncer/calendar/work"
+color = "green"
+default = false
+
+# UI configuration
+[ui]
+window_name = "Todos"
+show_footer_keybindings = true
+select_first = true
+rounded_borders = true
+date_format = "%m/%d/%y %H:%M:%S"
 
 ```
 

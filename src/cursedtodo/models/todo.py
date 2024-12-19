@@ -5,12 +5,14 @@ from datetime import datetime
 from ics import Todo as IcsTodo
 from ics.parsers.parser import ContentLine
 
+from cursedtodo.models.calendar import Calendar
 from cursedtodo.utils.time import get_locale_tz
 
 
 @dataclass
 class Todo:
     id: int | str
+    calendar: Calendar
     summary: str
     description: str
     categories: list[str] | None
