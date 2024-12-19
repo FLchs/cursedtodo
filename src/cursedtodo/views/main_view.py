@@ -46,7 +46,7 @@ class MainView(BaseView):
         pad.addnstr(
             y,
             0,
-            todo.list.ljust(columns[0]),
+            todo.calendar.name.ljust(columns[0]),
             columns[0],
             todo.calendar.color_attr,
         )

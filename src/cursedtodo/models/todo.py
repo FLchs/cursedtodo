@@ -16,7 +16,6 @@ class Todo:
     summary: str
     description: str
     categories: list[str] | None
-    list: str
     path: str | None
     priority: int
     completed: datetime | None

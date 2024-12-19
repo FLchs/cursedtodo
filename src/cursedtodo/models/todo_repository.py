@@ -29,7 +29,6 @@ class TodoRepository:
                         if x.name == "CATEGORIES"
                     ]
                     or [],
-                    path.basename(path.dirname(ics_file)),
                     ics_file,
                     event.priority or 0,
                     event.completed.datetime if event.completed is not None else None,
@@ -53,9 +52,7 @@ class TodoRepository:
         if todo.path is None:
             calendar = Calendar()
             todo_item = IcsTodo()
-            local_calendar_path = next(
-                filter(lambda cal: cal.default, Config.calendars)
-            ).path
+            local_calendar_path = todo.calendar.path
             os.makedirs(local_calendar_path, exist_ok=True)
             todo.path = os.path.join(local_calendar_path, f"{uuid1()}.ics")
         else:

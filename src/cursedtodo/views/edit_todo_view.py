@@ -51,7 +51,10 @@ class EditTodoView(BaseView):
         }
         if todo:
             for key, field in self.fields.items():
-                field.value = getattr(todo, key)
+                if key == "list":
+                    field.value = todo.calendar.name
+                else:
+                    field.value = getattr(todo, key)
         self.save_button = Button(
             self.window, self.height - 2, 1, "[ Save ]", self.save, self.validator
         )

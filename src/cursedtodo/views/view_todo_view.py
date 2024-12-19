@@ -36,7 +36,7 @@ class ViewTodoView(BaseView):
         line = 1
 
         self.window.addstr(line, 1, "Liste: ", A_BOLD)
-        self.window.addstr(todo.list)
+        self.window.addstr(todo.calendar.name, todo.calendar.color_attr)
         line += 1
 
         self.window.addstr(line, 1, "Priority: ", A_BOLD)
