@@ -35,7 +35,6 @@ class Todo:
         )
 
     def _add_attributes(self, todo_item: IcsTodo) -> None:
-        # TODO: Add due date
         todo_item.name = self.summary
         todo_item.description = self.description
         todo_item.location = self.location or ""
