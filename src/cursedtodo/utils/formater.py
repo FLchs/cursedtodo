@@ -12,7 +12,6 @@ class Priority:
 class Formater:
     priorities = [
         Priority(0, "No priority", curses.COLOR_WHITE),
-        Priority(10, "Lowest", curses.COLOR_WHITE),
         Priority(9, "Very Low", curses.COLOR_BLUE),
         Priority(8, "Low", curses.COLOR_CYAN),
         Priority(7, "Below Average", curses.COLOR_GREEN),
@@ -30,13 +29,11 @@ class Formater:
         for priority in Formater.priorities:
             curses.init_pair(10 + priority.index, priority.color, -1)
 
-
     @staticmethod
     def formatPriority(priority: int) -> tuple[str, int]:
         # Ensure the priority is within the valid range
         if priority < 0 or priority > 9:
             raise ValueError("Priority must be between 0 and 9")
-
 
         # Get the word and color for the given priority
         fmt_priority = next(p for p in Formater.priorities if p.index == priority)
