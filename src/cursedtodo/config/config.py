@@ -19,9 +19,16 @@ class UIConfig:
 
 
 @dataclass
+class Columns:
+    property: str
+    width: int
+
+
+@dataclass
 class _Config:
     calendars: list[Calendar]
     ui: UIConfig
+    columns: list[Columns]
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "_Config":
@@ -30,12 +37,13 @@ class _Config:
             Calendar(i, **cal) for i, cal in enumerate(data.get("calendars", {}))
         ]
         ui = UIConfig(**data.get("ui", {}))
+        columns: list[Columns] = [Columns(**col) for col in data.get("columns", {})]
         default_calendar = next(filter(lambda cal: cal.default, calendars))
         ui.default_calendar = (
             default_calendar.name if default_calendar is not None else None
         )
         # raise Exception(calendars, data)
-        return cls(calendars=calendars, ui=ui)
+        return cls(calendars=calendars, ui=ui, columns=columns)
 
 
 def _init_config() -> _Config:
