@@ -17,6 +17,7 @@ class UIConfig:
     date_format: str
     default_calendar: Optional[str] = None
     category_colors: bool = False
+    confirm_mark_as_done: bool = False
 
 
 @dataclass
