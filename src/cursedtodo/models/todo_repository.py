@@ -23,9 +23,10 @@ class TodoRepository:
                     event.name or "",
                     event.description or "",
                     [
-                        getattr(x, "value", "")
+                        cat.strip()
                         for x in event.extra
                         if x.name == "CATEGORIES"
+                        for cat in getattr(x, "value", "").split(",")
                     ]
                     or [],
                     ics_file,
