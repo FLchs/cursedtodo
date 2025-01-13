@@ -1,6 +1,7 @@
 from collections.abc import Callable
-from curses import A_BOLD, COLOR_BLACK, COLOR_WHITE, KEY_RESIZE, color_pair, init_pair, window
+from curses import A_BOLD, KEY_RESIZE, window
 
+from cursedtodo.utils.colors import WHITE
 from cursedtodo.utils.textinput import TextInput
 from cursedtodo.views.form.base_field import BaseField
 
@@ -17,8 +18,7 @@ class TextInputField(BaseField):
     ):
         super().__init__(y, window, name, id, validator, value)
         self.textwindow = window.derwin(1, 20, y, 15)
-        init_pair(45, COLOR_WHITE, COLOR_BLACK)
-        self.textwindow.bkgd(" ", color_pair(45))
+        self.textwindow.bkgd(" ", WHITE)
         self.value: str = value or " "
         self.validator = validator
         self.editor = TextInput(self.textwindow, self.value, self._validator)

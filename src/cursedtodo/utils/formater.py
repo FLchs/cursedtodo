@@ -1,5 +1,6 @@
-import curses
 from dataclasses import dataclass
+
+from cursedtodo.utils.colors import BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, YELLOW
 
 
 @dataclass
@@ -11,23 +12,17 @@ class Priority:
 
 class Formater:
     priorities = [
-        Priority(0, "No priority", curses.COLOR_WHITE),
-        Priority(9, "Very Low", curses.COLOR_BLUE),
-        Priority(8, "Low", curses.COLOR_CYAN),
-        Priority(7, "Below Average", curses.COLOR_GREEN),
-        Priority(6, "Average", curses.COLOR_YELLOW),
-        Priority(5, "Above Average", curses.COLOR_MAGENTA),
-        Priority(4, "High", curses.COLOR_RED),
-        Priority(3, "Very High", curses.COLOR_RED),
-        Priority(2, "Highest", curses.COLOR_RED),
-        Priority(1, "Critical", curses.COLOR_RED),
+        Priority(0, "No priority", WHITE),
+        Priority(9, "Very Low", BLUE),
+        Priority(8, "Low", CYAN),
+        Priority(7, "Below Average", GREEN),
+        Priority(6, "Average", YELLOW),
+        Priority(5, "Above Average", MAGENTA),
+        Priority(4, "High", RED),
+        Priority(3, "Very High", RED),
+        Priority(2, "Highest", RED),
+        Priority(1, "Critical", RED),
     ]
-
-    @staticmethod
-    def init_priority_colors() -> None:
-        # Initialize color pairs for each priority
-        for priority in Formater.priorities:
-            curses.init_pair(10 + priority.index, priority.color, -1)
 
     @staticmethod
     def formatPriority(priority: int) -> tuple[str, int]:
@@ -37,7 +32,7 @@ class Formater:
 
         # Get the word and color for the given priority
         fmt_priority = next(p for p in Formater.priorities if p.index == priority)
-        return fmt_priority.value, curses.color_pair(fmt_priority.index + 10)
+        return fmt_priority.value, fmt_priority.color
 
     @staticmethod
     def parse_priority(string: str | None) -> int:

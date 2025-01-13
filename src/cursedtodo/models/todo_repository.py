@@ -13,7 +13,6 @@ class TodoRepository:
     def get_list(show_completed: bool = False, asc: bool = False) -> list[Todo]:
         todos: list[Todo] = []
         for calendar in Config.calendars:
-            calendar.init_color()
             calendar_dir = os.path.expanduser(calendar.path)
             ics_files = glob(path.join(calendar_dir, "*.ics"))
 
