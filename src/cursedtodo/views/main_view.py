@@ -2,11 +2,15 @@ from __future__ import annotations
 
 import curses
 from curses import newpad, window
+from datetime import datetime
+from operator import attrgetter
 from typing import TYPE_CHECKING
 
 from cursedtodo.config import Config
 from cursedtodo.models.todo import Todo
+from cursedtodo.utils.colors import RED, WHITE, random_color
 from cursedtodo.utils.formater import Formater
+from cursedtodo.utils.time import get_locale_tz
 from cursedtodo.utils.window_utils import add_borders
 from cursedtodo.views.base_view import BaseView
 
@@ -33,29 +37,35 @@ class MainView(BaseView):
         )
         self.window.refresh()
         self.pad = newpad(max(len(self.controller.data), self.length), self.length)
-        Formater.init_priority_colors()
         self.render_content()
 
     def render_line(self, pad: window, y: int, todo: Todo) -> None:
-        columns = [10, min(self.length - 16, 70), 20, 25]
-        summary = (
-            (todo.summary[: columns[1] - 12] + "…")
-            if len(todo.summary) > columns[1] - 12
-            else todo.summary
-        )
-        pad.addnstr(
-            y,
-            0,
-            todo.calendar.name.ljust(columns[0]),
-            columns[0],
-            todo.calendar.color_attr,
-        )
-        pad.addnstr(summary.ljust(columns[1]), columns[1])
-        text, color = (
-            Formater.formatPriority(todo.priority) if todo.priority > 0 else ("", 0)
-        )
-        pad.addnstr(text.ljust(columns[2]), columns[2], color)
-        pad.addnstr(str(todo.due or "").ljust(columns[3]), columns[3])
+        columns = Config.columns
+        pad.move(y, 0)
+        for column in columns:
+            content = ""
+            attr = 0
+            if column.property == "priority" and todo.priority > 0:
+                content, attr = Formater.formatPriority(todo.priority)
+            elif column.property == "due" and todo.due is not None:
+                local_tz = get_locale_tz()
+                attr = RED if todo.due.replace() > datetime.now(local_tz) else -1
+                content = f"{todo.due.strftime(Config.ui.date_format)}"
+            elif column.property == "calendar.name":
+                content = todo.calendar.name
+                attr = todo.calendar.color_attr
+            elif column.property == "categories" and todo.categories:
+                content = ", ".join(todo.categories or [])
+                for category in todo.categories:
+                    color = (
+                        random_color(category) if Config.ui.category_colors else WHITE
+                    )
+                    pad.addstr(f"{category} ", color)
+                continue
+            else:
+                getter = attrgetter(column.property)
+                content = str(getter(todo) or "")
+            pad.addstr(content[: column.width - 1].ljust(column.width), attr)
         if todo.completed:
             pad.chgat(y, 0, self.length, curses.A_DIM)
         if y == self.selected:

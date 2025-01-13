@@ -2,14 +2,13 @@ from __future__ import annotations
 
 from curses import (
     A_BOLD,
-    COLOR_RED,
-    init_pair,
 )
 from datetime import datetime
 from typing import TYPE_CHECKING
 
 
 from cursedtodo.config import Config
+from cursedtodo.utils.colors import RED
 from cursedtodo.utils.formater import Formater
 from cursedtodo.utils.time import get_locale_tz
 from cursedtodo.utils.window_utils import add_borders, draw_line
@@ -51,11 +50,9 @@ class ViewTodoView(BaseView):
 
         if todo.due:
             self.window.addstr(line, 1, "Due: ", A_BOLD)
-            init_pair(21, COLOR_RED, -1)
             local_tz = get_locale_tz()
-            color = 21 if todo.due.replace() > datetime.now(local_tz) else -1
-            self.window.addstr(f"{todo.due.strftime(Config.ui.date_format)}")
-            # self.window.addstr(f" {todo.due.humanize()}", color_pair(21))
+            color = RED if todo.due.replace() > datetime.now(local_tz) else -1
+            self.window.addstr(f"{todo.due.strftime(Config.ui.date_format)}", color)
             line += 1
 
         if todo.categories and len(todo.categories) > 0:

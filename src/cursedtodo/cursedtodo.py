@@ -1,12 +1,14 @@
 from curses import curs_set, window, wrapper
 import curses
 import sys
-from cursedtodo.utils.router import Router
 
 
 def app(stdscreen: window) -> None:
     curs_set(0)
     curses.use_default_colors()
+    # Dynamic import to delay curses routines until the screen is fully initialized
+    from cursedtodo.utils.router import Router
+
     router = Router(stdscreen)
     router.route_main()
 

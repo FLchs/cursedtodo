@@ -1,7 +1,7 @@
 from collections.abc import Callable
-from curses import A_BOLD, COLOR_WHITE, KEY_RESIZE, color_pair, init_pair, window
-import curses
+from curses import A_BOLD, KEY_RESIZE, window
 
+from cursedtodo.utils.colors import WHITE
 from cursedtodo.utils.editor import Editor
 from cursedtodo.views.form.base_field import BaseField
 
@@ -17,9 +17,8 @@ class TextArea(BaseField):
         value: str | None = None,
     ):
         super().__init__(y, window, name, id, validator, value)
-        self.textwindow = window.derwin(8, 100, y+1, 1)
-        init_pair(45, COLOR_WHITE, curses.COLOR_BLACK)
-        self.textwindow.bkgd(' ', color_pair(45))
+        self.textwindow = window.derwin(8, 100, y + 1, 1)
+        self.textwindow.bkgd(" ", WHITE)
         self.value: str = str(value)
         self.validator = validator
         self.editor = Editor(self.textwindow, self.value or "", self._validator)

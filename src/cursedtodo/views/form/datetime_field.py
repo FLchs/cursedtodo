@@ -1,10 +1,11 @@
 from collections.abc import Callable
-from curses import A_BOLD, COLOR_WHITE, KEY_RESIZE, color_pair, init_pair, window
-import curses
+from curses import A_BOLD, KEY_RESIZE, window
 from datetime import datetime
+from cursedtodo.utils.colors import WHITE
 from cursedtodo.utils.textinput import TextInput
 from cursedtodo.utils.time import datetime_format, parse_to_datetime
 from cursedtodo.views.form.base_field import BaseField
+
 
 class DatetimeField(BaseField):
     def __init__(
@@ -17,8 +18,7 @@ class DatetimeField(BaseField):
         super().__init__(y, window, id, id, validator)
         self.value: datetime | None = None
         self.textwindow = window.derwin(1, 20, y, 15)
-        init_pair(45, COLOR_WHITE, curses.COLOR_BLACK)
-        self.textwindow.bkgd(' ', color_pair(45))
+        self.textwindow.bkgd(" ", WHITE)
         self.validator = validator
         self.editor = TextInput(self.textwindow, "", self._validator)
 
@@ -27,7 +27,7 @@ class DatetimeField(BaseField):
             try:
                 self.value = parse_to_datetime(self.editor.gather())
             except ValueError:
-            # TODO: we still need to be nice to the user there
+                # TODO: we still need to be nice to the user there
                 pass
         self.validator(ch)
         return ch
@@ -37,7 +37,7 @@ class DatetimeField(BaseField):
         self.window.addstr(self.y, 1, f"{self.id.capitalize()}: ", A_BOLD)
         self.textwindow.move(0, 0)
         if self.value is not None:
-            value = datetime_format(self.value) 
+            value = datetime_format(self.value)
             self.editor.set_value(value)
         self.editor.render()
         self.textwindow.refresh()

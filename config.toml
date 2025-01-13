@@ -1,14 +1,14 @@
 # Calendars configuration
 [[calendars]]
 name = "Personal"
-path = "~/.local/share/vdirsyncer/calendar/personal"
+path = "./vtodos/personal" # should be something like ~/.local/share/vdirsyncer/calendar/personal if you are using vdirsyncer
 # available colors : black, red, green, yellow, blue, magenta, cyan, white
 color = "blue"
 default = true
 
 [[calendars]]
 name= "Work"
-path = "~/.local/share/vdirsyncer/calendar/work"
+path = "./vtodos/work"
 color = "green"
 default = false
 
@@ -19,3 +19,25 @@ show_footer_keybindings = true
 select_first = true
 rounded_borders = true
 date_format = "%m/%d/%y %H:%M:%S"
+category_colors = true
+
+# Columns configuration
+[[columns]]
+property = "calendar.name"
+width = 10
+
+[[columns]]
+property = "summary"
+width = 30
+
+[[columns]]
+property = "priority"
+width = 15
+
+[[columns]]
+property = "due"
+width = 30
+
+[[columns]]
+property = "categories"
+width = 30

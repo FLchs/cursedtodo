@@ -13,7 +13,6 @@ class TodoRepository:
     def get_list(show_completed: bool = False, asc: bool = False) -> list[Todo]:
         todos: list[Todo] = []
         for calendar in Config.calendars:
-            calendar.init_color()
             calendar_dir = os.path.expanduser(calendar.path)
             ics_files = glob(path.join(calendar_dir, "*.ics"))
 
@@ -24,9 +23,10 @@ class TodoRepository:
                     event.name or "",
                     event.description or "",
                     [
-                        getattr(x, "value", "")
+                        cat.strip()
                         for x in event.extra
                         if x.name == "CATEGORIES"
+                        for cat in getattr(x, "value", "").split(",")
                     ]
                     or [],
                     ics_file,
