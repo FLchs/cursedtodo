@@ -1,5 +1,6 @@
 from curses import KEY_RESIZE
 
+from cursedtodo.config import Config
 from cursedtodo.controlers.base_controller import Controller
 from cursedtodo.models.todo_repository import TodoRepository
 from cursedtodo.views.dialog import Dialog
@@ -47,21 +48,32 @@ class MainController(Controller):
             self.view.render()
         if key == 32:
             todo = self.data[self.view.selected]
-            todo.mark_as_done()
-            TodoRepository.save(todo)
-            self.data = TodoRepository.get_list(self.show_completed, self.asc)
-            if not self.show_completed and todo.completed is not None:
-                self.data.append(todo)
-            self.view.selected = 0
-            self.view.render()
+            confirmed = (
+                True
+                if not Config.ui.confirm_mark_as_done
+                else Dialog.confirm(
+                    self.window,
+                    f'This action will mark "{todo.summary}" as {"done" if todo.completed is None else "pending"}. Are you sure you want to proceed?',
+                    self.view.render,
+                )
+            )
+            if confirmed:
+                todo.mark_as_done()
+                TodoRepository.save(todo)
+                self.data = TodoRepository.get_list(self.show_completed, self.asc)
+                if not self.show_completed and todo.completed is not None:
+                    self.data.append(todo)
+                self.view.selected = 0
+                self.view.render()
         if key == ord("x"):
-            result = Dialog.confirm(
+            todo = self.data[self.view.selected]
+            confirmed = Dialog.confirm(
                 self.window,
-                "This action will permanently delete the item. Are you sure you want to proceed?",
+                f'This action will permanently delete "{todo.summary}". Are you sure you want to proceed?',
                 self.view.render,
             )
-            if result:
-                TodoRepository.delete(self.data[self.view.selected])
+            if confirmed:
+                TodoRepository.delete(todo)
                 self.data = TodoRepository.get_list(self.show_completed, self.asc)
             self.view.render()
         return False
