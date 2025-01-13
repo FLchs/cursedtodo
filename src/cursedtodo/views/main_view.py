@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from cursedtodo.config import Config
 from cursedtodo.models.todo import Todo
-from cursedtodo.utils.colors import RED
+from cursedtodo.utils.colors import RED, WHITE, random_color
 from cursedtodo.utils.formater import Formater
 from cursedtodo.utils.time import get_locale_tz
 from cursedtodo.utils.window_utils import add_borders
@@ -48,16 +48,20 @@ class MainView(BaseView):
             if column.property == "priority" and todo.priority > 0:
                 content, attr = Formater.formatPriority(todo.priority)
             elif column.property == "due" and todo.due is not None:
-                # TODO: this code doesn't bring joy
                 local_tz = get_locale_tz()
                 attr = RED if todo.due.replace() > datetime.now(local_tz) else -1
                 content = f"{todo.due.strftime(Config.ui.date_format)}"
             elif column.property == "calendar.name":
                 content = todo.calendar.name
                 attr = todo.calendar.color_attr
-            elif column.property == "categories":
-                # TODO: Add colors to categories
+            elif column.property == "categories" and todo.categories:
                 content = ", ".join(todo.categories or [])
+                for category in todo.categories:
+                    color = (
+                        random_color(category) if Config.ui.category_colors else WHITE
+                    )
+                    pad.addstr(f"{category} ", color)
+                continue
             else:
                 getter = attrgetter(column.property)
                 content = str(getter(todo) or "")

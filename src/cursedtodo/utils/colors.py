@@ -27,6 +27,8 @@ YELLOW = color_pair(15)
 MAGENTA = color_pair(16)
 RED = color_pair(17)
 
+COLORS = [BLUE, CYAN, GREEN, YELLOW, MAGENTA, RED]
+
 
 def get_color(name: str | None) -> int:
     if name is None:
@@ -48,3 +50,9 @@ def get_color(name: str | None) -> int:
         return RED
     else:
         return WHITE
+
+
+def random_color(string: str) -> int:
+    hashed_value = hash(string)
+    index = hashed_value % len(COLORS)
+    return COLORS[index]

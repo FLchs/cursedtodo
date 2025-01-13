@@ -16,6 +16,7 @@ class UIConfig:
     rounded_borders: bool
     date_format: str
     default_calendar: Optional[str] = None
+    category_colors: bool = False
 
 
 @dataclass
