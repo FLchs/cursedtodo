@@ -44,7 +44,29 @@ show_footer_keybindings = true
 select_first = true
 rounded_borders = true
 date_format = "%m/%d/%y %H:%M:%S"
+category_colors = true
+confirm_mark_as_done = true
 
+# Columns configuration
+[[columns]]
+property = "calendar.name"
+width = 10
+
+[[columns]]
+property = "summary"
+width = 30
+
+[[columns]]
+property = "priority"
+width = 15
+
+[[columns]]
+property = "due"
+width = 30
+
+[[columns]]
+property = "categories"
+width = 30
 ```
 
 > [!IMPORTANT]  
