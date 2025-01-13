@@ -19,6 +19,7 @@ show_footer_keybindings = true
 select_first = true
 rounded_borders = true
 date_format = "%m/%d/%y %H:%M:%S"
+category_colors = true
 
 # Columns configuration
 [[columns]]
