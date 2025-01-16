@@ -23,7 +23,7 @@ GIF_FILE="demo.gif"
 
 # Start asciinema recording with automation using expect
 expect << EOF
-  spawn asciinema rec --cols 127 --rows 35  -c "pdm run ctodo -c ./config.toml"  "$CAST_FILE"
+  spawn asciinema rec --headless --tty-size 127x35  -c "pdm run ctodo -c ./config.toml"  "$CAST_FILE"
   expect {
     "*" {
       sleep 3
