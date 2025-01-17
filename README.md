@@ -4,6 +4,9 @@ CursedTodo is a lightweight and straightforward todo manager for the terminal. U
 
 CursedTodo is developed in Python using the [Curses library](https://docs.python.org/3.13/library/curses.html) and has only [ics](https://github.com/ics-py/ics-py) as a dependency.
 
+## Demo
+![demo of cursedtodo](demo.gif "Demo")
+
 ## Roadmap
 
 - [x] Basic todo list (ordered by priority, show/hide completed)
