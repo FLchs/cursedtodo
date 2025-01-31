@@ -17,7 +17,8 @@ class TextArea(BaseField):
         value: str | None = None,
     ):
         super().__init__(y, window, name, id, validator, value)
-        self.textwindow = window.derwin(8, 100, y + 1, 1)
+        # TODO: Make that fixed height dynamic
+        self.textwindow = window.derwin(7, 100, y + 1, 1)
         self.textwindow.bkgd(" ", WHITE)
         self.value: str = str(value)
         self.validator = validator
