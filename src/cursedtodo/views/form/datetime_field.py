@@ -13,9 +13,10 @@ class DatetimeField(BaseField):
         y: int,
         window: window,
         id: str,
+        name: str,
         validator: Callable[[int | str], int | str],
     ):
-        super().__init__(y, window, id, id, validator)
+        super().__init__(y, window, name, id, validator)
         self.value: datetime | None = None
         self.textwindow = window.derwin(1, 20, y, 15)
         self.textwindow.bkgd(" ", WHITE)
@@ -34,7 +35,8 @@ class DatetimeField(BaseField):
 
     def render(self) -> None:
         self.textwindow.erase()
-        self.window.addstr(self.y, 1, f"{self.id.capitalize()}: ", A_BOLD)
+        if self.name != "":
+            self.window.addstr(self.y, 1, f"{self.name}: ", A_BOLD)
         self.textwindow.move(0, 0)
         if self.value is not None:
             value = datetime_format(self.value)
