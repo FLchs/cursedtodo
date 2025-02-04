@@ -10,7 +10,7 @@ from cursedtodo.config import Config
 from cursedtodo.models.todo import Todo
 from cursedtodo.utils.colors import RED, WHITE, random_color
 from cursedtodo.utils.formater import Formater
-from cursedtodo.utils.time import get_locale_tz
+from cursedtodo.utils.time import TimeUtil
 from cursedtodo.utils.window_utils import add_borders
 from cursedtodo.views.base_view import BaseView
 
@@ -48,8 +48,9 @@ class MainView(BaseView):
             if column.property == "priority" and todo.priority > 0:
                 content, attr = Formater.formatPriority(todo.priority)
             elif column.property == "due" and todo.due is not None:
-                local_tz = get_locale_tz()
-                attr = RED if todo.due.replace() > datetime.now(local_tz) else -1
+                local_tz = TimeUtil.get_locale_tz()
+                if todo.due.replace(tzinfo=local_tz) < datetime.now(local_tz):
+                    attr = RED
                 content = f"{todo.due.strftime(Config.ui.date_format)}"
             elif column.property == "calendar.name":
                 content = todo.calendar.name

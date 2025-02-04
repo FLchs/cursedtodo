@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 from cursedtodo.config import Config
 from cursedtodo.utils.colors import RED
 from cursedtodo.utils.formater import Formater
-from cursedtodo.utils.time import get_locale_tz
+from cursedtodo.utils.time import TimeUtil
 from cursedtodo.utils.window_utils import add_borders, draw_line
 from cursedtodo.views.base_view import BaseView
 
@@ -50,7 +50,7 @@ class ViewTodoView(BaseView):
 
         if todo.due:
             self.window.addstr(line, 1, "Due: ", A_BOLD)
-            local_tz = get_locale_tz()
+            local_tz = TimeUtil.get_locale_tz()
             color = RED if todo.due.replace() > datetime.now(local_tz) else -1
             self.window.addstr(f"{todo.due.strftime(Config.ui.date_format)}", color)
             line += 1

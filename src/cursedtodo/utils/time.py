@@ -1,24 +1,29 @@
 from datetime import datetime
 import os
 from zoneinfo import ZoneInfo
+
+from pendulum import from_format, parse, DateTime
 from cursedtodo.config import Config
 
 
-format = Config.ui.date_format
+class TimeUtil:
+    @staticmethod
+    def get_locale_tz() -> ZoneInfo:
+        local_tz_path = os.readlink("/etc/localtime")
+        local_tz_name = local_tz_path.split("/usr/share/zoneinfo/")[-1]
+        return ZoneInfo(local_tz_name)
 
-# TODO: make it a class and maybe use dateutil for more robust parsing
+    @staticmethod
+    def datetime_format(datetime: datetime) -> str:
+        return datetime.strftime(Config.ui.date_format)
 
-
-def get_locale_tz() -> ZoneInfo:
-    local_tz_path = os.readlink("/etc/localtime")
-    local_tz_name = local_tz_path.split("/usr/share/zoneinfo/")[-1]
-    return ZoneInfo(local_tz_name)
-
-
-def datetime_format(datetime: datetime) -> str:
-    local_tz = get_locale_tz()
-    return datetime.astimezone(local_tz).strftime(format)
-
-
-def parse_to_datetime(string: str) -> datetime:
-    return datetime.strptime(string, format)
+    @staticmethod
+    def parse_to_datetime(string: str) -> datetime:
+        format = Config.ui.date_format
+        while len(format) > 1:
+            try:
+                return datetime.strptime(string, format)
+            except:
+                pass
+            format = format[: len(format) - 1]
+        raise Exception("Date error")

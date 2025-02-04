@@ -34,7 +34,10 @@ class EditTodoController(Controller):
         categories = Validator.validate_list(data.get("categories"), str)
         list = data.get("list", "")
         priority = Formater.parse_priority(data.get("priority"))
-        due = Validator.validate_optional(data.get("due"), datetime)
+        if data.get("due_checked"):
+            due = Validator.validate_optional(data.get("due"), datetime)
+        else:
+            due = None
         calendar = next(filter(lambda cal: cal.name == list, Config.calendars))
 
         if self.todo is None:

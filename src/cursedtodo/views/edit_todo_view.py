@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from curses import KEY_RESIZE
+from datetime import datetime
 from typing import TYPE_CHECKING, Any, Dict
 
 
@@ -11,6 +12,7 @@ from cursedtodo.views.base_view import BaseView
 from cursedtodo.views.form.Button import Button
 from cursedtodo.views.form.base_field import BaseField
 from cursedtodo.views.form.categories_field import CategoriesField
+from cursedtodo.views.form.checkbox_field import CheckboxField
 from cursedtodo.views.form.datetime_field import DatetimeField
 from cursedtodo.views.form.priority_field import PriorityField
 from cursedtodo.views.form.select_field import SelectField
@@ -40,19 +42,26 @@ class EditTodoView(BaseView):
             "priority": PriorityField(
                 4, self.window, "Priority", "priority", self.validator
             ),
-            "due": DatetimeField(5, self.window, "due", self.validator),
-            "categories": CategoriesField(6, self.window, "categories", self.validator),
+            "due_checked": CheckboxField(
+                5, self.window, "Due", "due_checked", self.validator
+            ),
+            "due": DatetimeField(6, self.window, "due", "", self.validator),
+            "categories": CategoriesField(7, self.window, "categories", self.validator),
             "location": TextInputField(
-                7, self.window, "Location", "location", self.validator
+                8, self.window, "Location", "location", self.validator
             ),
             "description": TextArea(
-                9, self.window, "Description", "description", self.validator, ""
+                10, self.window, "Description", "description", self.validator, ""
             ),
         }
         if todo:
             for key, field in self.fields.items():
                 if key == "list":
                     field.value = todo.calendar.name
+                elif key == "due_checked":
+                    field.value = todo.due is not None
+                elif key == "due":
+                    field.value = todo.due or datetime.now()
                 else:
                     field.value = getattr(todo, key)
         self.save_button = Button(
@@ -69,7 +78,7 @@ class EditTodoView(BaseView):
         add_borders(self.window)
         self.window.addstr(self.height - 1, 5, " tab: next field ")
         self.window.addstr(0, 5, " Edit todo ")
-        draw_line(self.window, 8, self.length)
+        draw_line(self.window, 9, self.length)
         for field in self.fields.values():
             field.render()
         self.save_button.render(self.height - 2, 1)
