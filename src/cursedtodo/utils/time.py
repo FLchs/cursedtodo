@@ -2,7 +2,6 @@ from datetime import datetime
 import os
 from zoneinfo import ZoneInfo
 
-from pendulum import from_format, parse, DateTime
 from cursedtodo.config import Config
 
 
@@ -23,7 +22,7 @@ class TimeUtil:
         while len(format) > 1:
             try:
                 return datetime.strptime(string, format)
-            except:
+            except ValueError:
                 pass
             format = format[: len(format) - 1]
         raise Exception("Date error")
