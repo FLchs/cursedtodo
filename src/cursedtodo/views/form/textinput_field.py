@@ -33,7 +33,7 @@ class TextInputField(BaseField):
         self.window.addstr(self.y, 1, f"{self.name}: ", A_BOLD)
         self.textwindow.move(0, 0)
         if self.value is None or len(self.value) == 0:
-            self.value = " "
+            self.value = ""
         self.editor.set_value(self.value)
         self.editor.render()
         # Editor().main(self.textwindow,self.value or "")
