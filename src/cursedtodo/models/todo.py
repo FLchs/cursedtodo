@@ -6,7 +6,7 @@ from ics import Todo as IcsTodo
 from ics.parsers.parser import ContentLine
 
 from cursedtodo.models.calendar import Calendar
-from cursedtodo.utils.time import get_locale_tz
+from cursedtodo.utils.time import TimeUtil
 
 
 @dataclass
@@ -46,5 +46,5 @@ class Todo:
         self._add_categories(todo_item)
 
     def mark_as_done(self) -> None:
-        tz = get_locale_tz()
+        tz = TimeUtil.get_locale_tz()
         self.completed = datetime.now(tz) if self.completed is None else None
