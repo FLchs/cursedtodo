@@ -51,13 +51,15 @@ class ViewTodoView(BaseView):
         if todo.due:
             self.window.addstr(line, 1, "Due: ", A_BOLD)
             local_tz = TimeUtil.get_locale_tz()
-            color = RED if todo.due.replace() > datetime.now(local_tz) else -1
+            color = (
+                RED if todo.due.replace(tzinfo=local_tz) < datetime.now(local_tz) else 0
+            )
             self.window.addstr(f"{todo.due.strftime(Config.ui.date_format)}", color)
             line += 1
 
         if todo.categories and len(todo.categories) > 0:
             self.window.addstr(line, 1, "Categories: ", A_BOLD)
-            self.window.addstr("".join(todo.categories or []))
+            self.window.addstr(", ".join(todo.categories or []))
             line += 1
 
         if todo.location and len(todo.location) > 0:
