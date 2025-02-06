@@ -2,10 +2,11 @@
 
 ![GitHub Release](https://img.shields.io/github/v/release/flchs/cursedtodo?include_prereleases)
 ![GitHub License](https://img.shields.io/github/license/flchs/cursedtodo)
-![License](https://img.shields.io/github/license/flchs/cursedtodo)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/flchs/cursedtodo/release.yml)
 
 CursedTodo is a minimalist, terminal base todo manager storing tasks as `.ics` files for storage.
-It can be used with [vdirsync](http://vdirsyncer.pimutils.org) for CalDAV synchronization. Efforts are made to support most of [RFC-5545](https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/) and to be compatible with most other projects.
+It can be used with [vdirsyncer](http://vdirsyncer.pimutils.org) for CalDAV synchronization. Efforts are made to support most of [RFC-5545](https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/) and to be compatible with most other projects.
+It has been tested with [vdirsyncer](http://vdirsyncer.pimutils.org), [Nextcloud Tasks](https://apps.nextcloud.com/apps/tasks) and [Tasks.org](https://tasks.org/).
 
 Built in Python using the [Curses library](https://docs.python.org/3.13/library/curses.html) Cursedtodo has only one direct dependency: [ics](https://github.com/ics-py/ics-py).
 
