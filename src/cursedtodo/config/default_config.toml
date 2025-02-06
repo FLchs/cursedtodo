@@ -1,0 +1,44 @@
+# Calendars configuration
+[[calendars]]
+name = "Personal"
+path = "~/.local/share/cursedtodos/calendar/personal" # should be something like ~/.local/share/vdirsyncer/calendar/personal if you are using vdirsyncer
+# available colors : black, red, green, yellow, blue, magenta, cyan, white
+color = "blue"
+default = true
+
+[[calendars]]
+name= "Work"
+path = "~/.local/share/cursedtodos/calendar/work" # should be something like ~/.local/share/vdirsyncer/calendar/work if you are using vdirsyncer
+color = "green"
+default = false
+
+# UI configuration
+[ui]
+window_name = "Todos"
+show_footer_keybindings = true
+select_first = true
+rounded_borders = true
+date_format = "%m/%d/%y %H:%M:%S"
+category_colors = true
+confirm_mark_as_done = true
+
+# Columns configuration
+[[columns]]
+property = "calendar.name"
+width = 10
+
+[[columns]]
+property = "summary"
+width = 30
+
+[[columns]]
+property = "priority"
+width = 15
+
+[[columns]]
+property = "due"
+width = 25
+
+[[columns]]
+property = "categories"
+width = 30
