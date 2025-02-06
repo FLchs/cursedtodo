@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import os
 import pathlib
 import tomllib
+import shutil
 from typing import Any, Optional
 
 from cursedtodo.config.arguments import Arguments
@@ -34,7 +35,6 @@ class _Config:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "_Config":
-        print("Parsing configuration file...")
         calendars: list[Calendar] = [
             Calendar(i, **cal) for i, cal in enumerate(data.get("calendars", {}))
         ]
@@ -49,7 +49,7 @@ class _Config:
 
 
 def _init_config() -> _Config:
-    """Load the configuration from a TOML file."""
+    print("Parsing configuration file...")
     xdg_config_home = os.environ.get("XDG_CONFIG_HOME") or os.path.join(
         os.path.expanduser("~"), ".config"
     )
@@ -59,7 +59,18 @@ def _init_config() -> _Config:
     config_file = pathlib.Path(config_file_path)
 
     if not config_file.exists():
-        raise FileNotFoundError(f"Configuration file not found: {config_file}")
+        if Arguments.config is None:
+            print(
+                "Configuration file not found, creating default configuration file..."
+            )
+            default_config_file = pathlib.Path(
+                os.path.join(
+                    pathlib.Path(__file__).parent.resolve(), "default_config.toml"
+                )
+            )
+            shutil.copy(default_config_file, config_file)
+        else:
+            raise Exception(f"Configuration file not found: {config_file}")
 
     with config_file.open("rb") as file:
         data = tomllib.load(file)
