@@ -28,6 +28,7 @@ up = "k"
 down = "j"
 new = "n"
 delete = "x"
+edit = "e"
 # todo list
 mark_as_done = " "
 show_completed = "c"

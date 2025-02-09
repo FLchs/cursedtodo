@@ -33,6 +33,7 @@ class KeyBindings:
     down: int
     new: int
     delete: int
+    edit: int
     mark_as_done: int
     show_completed: int
     change_order: int
@@ -42,6 +43,7 @@ class KeyBindings:
         self.down = ord(kwargs.get("down", "j"))
         self.new = ord(kwargs.get("new", "n"))
         self.delete = ord(kwargs.get("delete", "x"))
+        self.edit = ord(kwargs.get("edit", "e"))
         self.mark_as_done = ord(kwargs.get("mark_as_done", " "))
         self.show_completed = ord(kwargs.get("show_completed", "c"))
         self.change_order = ord(kwargs.get("change_order", "o"))
