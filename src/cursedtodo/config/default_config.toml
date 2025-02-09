@@ -22,7 +22,18 @@ date_format = "%m/%d/%y %H:%M:%S"
 category_colors = true
 confirm_mark_as_done = true
 
+[keybindings]
+# general
+up = "k"
+down = "j"
+new = "n"
+delete = "x"
+# todo list
+mark_as_done = " "
+show_completed = "c"
+change_order = "o"
 # Columns configuration
+
 [[columns]]
 property = "calendar.name"
 width = 10

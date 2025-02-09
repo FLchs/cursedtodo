@@ -28,10 +28,31 @@ class Columns:
 
 
 @dataclass
+class KeyBindings:
+    up: int
+    down: int
+    new: int
+    delete: int
+    mark_as_done: int
+    show_completed: int
+    change_order: int
+
+    def __init__(self, **kwargs: str) -> None:
+        self.up = ord(kwargs.get("up", "k"))
+        self.down = ord(kwargs.get("down", "j"))
+        self.new = ord(kwargs.get("new", "n"))
+        self.delete = ord(kwargs.get("delete", "x"))
+        self.mark_as_done = ord(kwargs.get("mark_as_done", " "))
+        self.show_completed = ord(kwargs.get("show_completed", "c"))
+        self.change_order = ord(kwargs.get("change_order", "o"))
+
+
+@dataclass
 class _Config:
     calendars: list[Calendar]
     ui: UIConfig
     columns: list[Columns]
+    keybindings: KeyBindings
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "_Config":
@@ -44,8 +65,9 @@ class _Config:
         ui.default_calendar = (
             default_calendar.name if default_calendar is not None else None
         )
+        keybindings = KeyBindings(**data.get("keybindings", {}))
         # raise Exception(calendars, data)
-        return cls(calendars=calendars, ui=ui, columns=columns)
+        return cls(calendars=calendars, ui=ui, columns=columns, keybindings=keybindings)
 
 
 def _init_config() -> _Config:
