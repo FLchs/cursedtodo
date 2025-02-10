@@ -27,11 +27,27 @@ class Columns:
     width: int
 
 
+class KeyBindings:
+    up: int
+    down: int
+    new: int
+    delete: int
+    edit: int
+    mark_as_done: int
+    show_completed: int
+    change_order: int
+
+    def __init__(self, **kwargs: str) -> None:
+        for key in self.__annotations__:
+            setattr(self, key, ord(kwargs.get(key, "")))
+
+
 @dataclass
 class _Config:
     calendars: list[Calendar]
     ui: UIConfig
     columns: list[Columns]
+    keybindings: KeyBindings
 
     @classmethod
     def from_dict(cls, data: dict[str, Any], default_data: dict[str, Any]) -> "_Config":
@@ -40,21 +56,28 @@ class _Config:
         ui_data.update(data.get("ui", {}))
         ui = UIConfig(**ui_data)
 
-        columns_data = dict()
-        columns_data.update(default_data.get("columns", {}))
-        columns_data.update(data.get("columns", {}))
+        columns_data = data.get("columns", default_data.get("columns", []))
         columns: list[Columns] = [Columns(**col) for col in columns_data]
 
-        calendars: list[Calendar] = [
-            Calendar(i, **cal) for i, cal in enumerate(data.get("calendars", {}))
-        ]
+        keybindings_data = dict()
+        keybindings_data.update(default_data.get("keybindings", {}))
+        keybindings_data.update(data.get("keybindings", {}))
+        keybindings = KeyBindings(**keybindings_data)
 
-        default_calendar = next(filter(lambda cal: cal.default, calendars))
+        calendars_data = data.get("calendars", default_data.get("calendars", {}))
+        calendars: list[Calendar] = [
+            Calendar(i, **cal) for i, cal in enumerate(calendars_data)
+        ]
+        if len(calendars) == 0:
+            raise Exception("No calendars defined in configuration file")
+
+        default_calendar = next(
+            filter(lambda cal: cal.default, calendars), calendars[0]
+        )
         ui.default_calendar = (
             default_calendar.name if default_calendar is not None else None
         )
-
-        return cls(calendars=calendars, ui=ui, columns=columns)
+        return cls(calendars=calendars, ui=ui, columns=columns, keybindings=keybindings)
 
 
 def _init_config() -> _Config:

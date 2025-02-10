@@ -33,7 +33,7 @@ class MainView(BaseView):
         self.window.addstr(
             self.height - 1,
             5,
-            " q : quit | c: show completed | o : change order | space : mark as done | x: delete ",
+            f" q: quit | {chr(Config.keybindings.show_completed)}: show completed | {chr(Config.keybindings.change_order)}: change order | {'space' if chr(Config.keybindings.mark_as_done) == ' ' else chr(Config.keybindings.mark_as_done)}: mark as done | {chr(Config.keybindings.delete)}: delete ",
         )
         self.window.refresh()
         self.pad = newpad(max(len(self.controller.data), self.length), self.length)
@@ -86,11 +86,14 @@ class MainView(BaseView):
             k = self.pad.getch()
             if self.controller.handle_key(k):
                 break
-            elif k == ord("j") and self.selected < len(self.controller.data) - 1:
+            elif (
+                k == Config.keybindings.down
+                and self.selected < len(self.controller.data) - 1
+            ):
                 self.selected += 1
                 if self.selected > self.height - 3:
                     self.index += 1
-            elif k == ord("k") and self.selected > 0:
+            elif k == Config.keybindings.up and self.selected > 0:
                 self.selected -= 1
                 if self.selected < self.index:
                     self.index -= 1
