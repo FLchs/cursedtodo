@@ -76,8 +76,8 @@ edit = "e"
 mark_as_done = " "
 show_completed = "c"
 change_order = "o"
-# Columns configuration
 
+# Columns configuration
 [[columns]]
 property = "calendar.name"
 width = 10
