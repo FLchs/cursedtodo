@@ -34,17 +34,26 @@ class _Config:
     columns: list[Columns]
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "_Config":
+    def from_dict(cls, data: dict[str, Any], default_data: dict[str, Any]) -> "_Config":
+        ui_data = dict()
+        ui_data.update(default_data.get("ui", {}))
+        ui_data.update(data.get("ui", {}))
+        ui = UIConfig(**ui_data)
+
+        columns_data = dict()
+        columns_data.update(default_data.get("columns", {}))
+        columns_data.update(data.get("columns", {}))
+        columns: list[Columns] = [Columns(**col) for col in columns_data]
+
         calendars: list[Calendar] = [
             Calendar(i, **cal) for i, cal in enumerate(data.get("calendars", {}))
         ]
-        ui = UIConfig(**data.get("ui", {}))
-        columns: list[Columns] = [Columns(**col) for col in data.get("columns", {})]
+
         default_calendar = next(filter(lambda cal: cal.default, calendars))
         ui.default_calendar = (
             default_calendar.name if default_calendar is not None else None
         )
-        # raise Exception(calendars, data)
+
         return cls(calendars=calendars, ui=ui, columns=columns)
 
 
@@ -57,16 +66,14 @@ def _init_config() -> _Config:
         xdg_config_home, "cursedtodo/config.toml"
     )
     config_file = pathlib.Path(config_file_path)
+    default_config_file = pathlib.Path(
+        os.path.join(pathlib.Path(__file__).parent.resolve(), "default_config.toml")
+    )
 
     if not config_file.exists():
         if Arguments.config is None:
             print(
                 "Configuration file not found, creating default configuration file..."
-            )
-            default_config_file = pathlib.Path(
-                os.path.join(
-                    pathlib.Path(__file__).parent.resolve(), "default_config.toml"
-                )
             )
             shutil.copy(default_config_file, config_file)
         else:
@@ -75,4 +82,7 @@ def _init_config() -> _Config:
     with config_file.open("rb") as file:
         data = tomllib.load(file)
 
-    return _Config.from_dict(data)
+    with default_config_file.open("rb") as file:
+        default_data = tomllib.load(file)
+
+    return _Config.from_dict(data, default_data)

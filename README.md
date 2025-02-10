@@ -46,20 +46,12 @@ pip install cursedtodo
 Cursedtodo will generate a config.toml files in `$XDG_CONFIG_HOME/cursedtodo/` at first start.
 Keybinds are based on Vim hjkl for movement.
 
-Here is an example [config.toml](config.toml):
+Here is an example [config.toml](./src/cursedtodo/config/default_config.toml):
 
 ``` toml
-# Calendars configuration
 [[calendars]]
-name = "Personal"
-path = "~/.local/share/cursedtodos/calendar/personal" # should be something like ~/.local/share/vdirsyncer/calendar/personal if you are using vdirsyncer
-# available colors : black, red, green, yellow, blue, magenta, cyan, white
-color = "blue"
-default = true
-
-[[calendars]]
-name= "Work"
-path = "~/.local/share/cursedtodos/calendar/work" # should be something like ~/.local/share/vdirsyncer/calendar/work if you are using vdirsyncer
+name= "Default"
+path = "~/.local/share/cursedtodos/calendar/default" # should be something like ~/.local/share/vdirsyncer/calendar/work if you are using vdirsyncer
 color = "green"
 default = false
 
