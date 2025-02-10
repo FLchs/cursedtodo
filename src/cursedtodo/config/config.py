@@ -27,7 +27,6 @@ class Columns:
     width: int
 
 
-@dataclass
 class KeyBindings:
     up: int
     down: int
@@ -39,14 +38,8 @@ class KeyBindings:
     change_order: int
 
     def __init__(self, **kwargs: str) -> None:
-        self.up = ord(kwargs.get("up", "k"))
-        self.down = ord(kwargs.get("down", "j"))
-        self.new = ord(kwargs.get("new", "n"))
-        self.delete = ord(kwargs.get("delete", "x"))
-        self.edit = ord(kwargs.get("edit", "e"))
-        self.mark_as_done = ord(kwargs.get("mark_as_done", " "))
-        self.show_completed = ord(kwargs.get("show_completed", "c"))
-        self.change_order = ord(kwargs.get("change_order", "o"))
+        for key in self.__annotations__:
+            setattr(self, key, ord(kwargs.get(key, "")))
 
 
 @dataclass
@@ -63,26 +56,27 @@ class _Config:
         ui_data.update(data.get("ui", {}))
         ui = UIConfig(**ui_data)
 
-        columns_data = dict()
-        columns_data.update(default_data.get("columns", {}))
-        columns_data.update(data.get("columns", {}))
+        columns_data = data.get("columns", default_data.get("columns", []))
         columns: list[Columns] = [Columns(**col) for col in columns_data]
 
         keybindings_data = dict()
         keybindings_data.update(default_data.get("keybindings", {}))
         keybindings_data.update(data.get("keybindings", {}))
-
         keybindings = KeyBindings(**keybindings_data)
 
+        calendars_data = data.get("calendars", default_data.get("calendars", {}))
         calendars: list[Calendar] = [
-            Calendar(i, **cal) for i, cal in enumerate(data.get("calendars", {}))
+            Calendar(i, **cal) for i, cal in enumerate(calendars_data)
         ]
+        if len(calendars) == 0:
+            raise Exception("No calendars defined in configuration file")
 
-        default_calendar = next(filter(lambda cal: cal.default, calendars))
+        default_calendar = next(
+            filter(lambda cal: cal.default, calendars), calendars[0]
+        )
         ui.default_calendar = (
             default_calendar.name if default_calendar is not None else None
         )
-        # raise Exception(calendars, data)
         return cls(calendars=calendars, ui=ui, columns=columns, keybindings=keybindings)
 
 
