@@ -7,7 +7,7 @@ from cursedtodo.utils.window_utils import add_borders, draw_line
 
 class Dialog:
     @staticmethod
-    def confirm(window: window, text: str, on_resize: Callable) -> bool:
+    def confirm(window: window, text: str, on_resize: Callable[[], None]) -> bool:
         window = window
         text = text
         height, length = window.getmaxyx()
