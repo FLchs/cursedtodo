@@ -1,9 +1,11 @@
-from curses import KEY_RESIZE
+from curses import KEY_RESIZE, A_BOLD
 
 from cursedtodo.config import Config
 from cursedtodo.controlers.base_controller import Controller
 from cursedtodo.models.todo_repository import TodoRepository
+from cursedtodo.utils.help import Help
 from cursedtodo.views.dialog import Dialog
+from cursedtodo.views.info_popup import InfoPopup
 from cursedtodo.views.main_view import MainView
 
 
@@ -32,6 +34,10 @@ class MainController(Controller):
             self.view.render()
         if key == ord("q"):
             return True
+        if key == ord("?"):
+            help_text = Help.get_keybindings()
+            help_text.insert(0, ("Keybindings:", A_BOLD))
+            InfoPopup.show(self.window, help_text, self.view.render)
         if key == Config.keybindings.show_completed:
             self.view.selected = 0
             self.view.index = 0
