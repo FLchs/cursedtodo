@@ -33,7 +33,7 @@ class MainView(BaseView):
         self.window.addstr(
             self.height - 1,
             5,
-            f" q: quit | {chr(Config.keybindings.show_completed)}: show completed | {chr(Config.keybindings.change_order)}: change order | {'space' if chr(Config.keybindings.mark_as_done) == ' ' else chr(Config.keybindings.mark_as_done)}: mark as done | {chr(Config.keybindings.delete)}: delete ",
+            " q: quit | ?: help ",
         )
         self.window.refresh()
         self.pad = newpad(max(len(self.controller.data), self.length), self.length)
