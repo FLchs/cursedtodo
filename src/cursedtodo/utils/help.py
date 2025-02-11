@@ -3,7 +3,7 @@ from cursedtodo.config import Config
 
 class Help:
     @staticmethod
-    def get_keybindings() -> list[str]:
+    def get_keybindings() -> list[str | tuple[str, int]]:
         return [
             f"Up: {chr(Config.keybindings.up)}",
             f"Down: {chr(Config.keybindings.down)}",
