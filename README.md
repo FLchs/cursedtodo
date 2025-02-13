@@ -3,6 +3,7 @@
 ![GitHub Release](https://img.shields.io/github/v/release/flchs/cursedtodo?include_prereleases)
 ![GitHub License](https://img.shields.io/github/license/flchs/cursedtodo)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/flchs/cursedtodo/release.yml)
+![PyPI - Downloads](https://img.shields.io/pypi/dw/cursedtodo)
 
 CursedTodo is a minimalist, terminal base todo manager storing tasks as `.ics` files for storage.
 It can be used with [vdirsyncer](http://vdirsyncer.pimutils.org) for CalDAV synchronization. Efforts are made to support most of [RFC-5545](https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/) and to be compatible with most other projects.
@@ -23,7 +24,7 @@ Built in Python using the [Curses library](https://docs.python.org/3.13/library/
 - [x] Todo creation, modification, and deletion
 - [ ] Arch aur package
 - [ ] Other distributions packages
-- [ ] Keymaps customization
+- [x] Keymaps customization
 - [ ] Category filtering
 - [ ] Basic CLI for adding todos
 
