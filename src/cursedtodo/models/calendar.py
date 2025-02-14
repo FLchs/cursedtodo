@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 from typing import Optional
 
-from cursedtodo.utils.colors import WHITE, get_color
+from cursedtodo.utils.colors import get_color
 
 
 @dataclass

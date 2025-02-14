@@ -1,5 +1,4 @@
 from datetime import datetime
-from os import name
 from typing import Any
 from cursedtodo.config import Config
 from cursedtodo.controlers.base_controller import Controller

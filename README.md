@@ -1,8 +1,9 @@
 # CursedTodo
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/flchs/cursedtodo/pull_request.yml?branch=main)
 ![GitHub Release](https://img.shields.io/github/v/release/flchs/cursedtodo?include_prereleases)
 ![GitHub License](https://img.shields.io/github/license/flchs/cursedtodo)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/flchs/cursedtodo/release.yml)
+![CI](https://img.shields.io/github/actions/workflow/status/flchs/cursedtodo/release.yml)
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/cursedtodo)
 
 CursedTodo is a minimalist, terminal base todo manager storing tasks as `.ics` files for storage.

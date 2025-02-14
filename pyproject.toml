@@ -5,7 +5,7 @@ authors = [
     {name = "François Lachèse", email = "francois.lachese@gmail.com"},
 ]
 dependencies = ["ics>=0.7.2,<0.8"]
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 dynamic = ["version"]
@@ -30,6 +30,7 @@ debug = "python -m debugpy --listen 127.0.0.1:5678 --wait-for-client -m cursedto
 [tool.mypy]
 mypy_path = "src/"
 strict = true
+disable_error_code = "unused-ignore"
 
 [[tool.mypy.overrides]]
 module = "ics.*"
@@ -38,4 +39,6 @@ ignore_missing_imports = true
 [dependency-groups]
 dev = [
     "debugpy>=1.8.11",
+    "ruff>=0.9.6",
+    "mypy>=1.15.0",
 ]
