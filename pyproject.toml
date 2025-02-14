@@ -39,4 +39,6 @@ ignore_missing_imports = true
 [dependency-groups]
 dev = [
     "debugpy>=1.8.11",
+    "ruff>=0.9.6",
+    "mypy>=1.15.0",
 ]
