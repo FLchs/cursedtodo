@@ -30,6 +30,7 @@ debug = "python -m debugpy --listen 127.0.0.1:5678 --wait-for-client -m cursedto
 [tool.mypy]
 mypy_path = "src/"
 strict = true
+disable_error_code = "unused-ignore"
 
 [[tool.mypy.overrides]]
 module = "ics.*"
